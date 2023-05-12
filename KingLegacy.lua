@@ -18,7 +18,7 @@ local adminCode = "eventfree0user"
 _G.Settings = {
 	autofarm = false,
 	farmselect = false,
-	monster_selected ="None",
+	monster_selected ="No chosen",
 	NormalAttack=false,
 	super_Attack=false,
 	SWZSkill=false,
@@ -38,7 +38,7 @@ _G.Settings = {
 	FSBSkill=false,
 
 	TeleON = false,
-	Teleselect = "None",
+	Teleselect = "OFF",
 
 	Haki = true,
 	Ken = false,
@@ -47,7 +47,7 @@ _G.Settings = {
 	khoangcach = 10,
 	target = false,
 	
-	quest = "None"
+	quest = "No Quest"
 
 
 
@@ -61,7 +61,8 @@ local key = "Key.txt"
 
 local ModeAuto = {
 }
-print("3")
+print("load rawlinkGUI")
+local u = loadstring(game:HttpGet(rawlinkGUI))()
 function saveSettings()
 	local c = game:GetService("HttpService")
 	local d = c:JSONEncode(_G.Settings)
@@ -206,7 +207,7 @@ local g = game:GetService("Players")
 local h = game:GetService("VirtualUser")
 local i = game:GetService("TweenService")
 local j = g.LocalPlayer
-local u = loadstring(game:HttpGet(rawlinkGUI))()
+--local u = loadstring(game:HttpGet(rawlinkGUI))()
 --hide/show GUI
 function HideGui()
 	local k = game.CoreGui:FindFirstChild("Autoplayer")
@@ -273,6 +274,7 @@ if true then --or checkKey
 	-------------------Manual Mode-----------------------------------
 	--local enemy = _G.Settings.monster_selected or nil
 	local Monster = {
+		"No chosen",
 		"Soldier [Lv. 1]",
 		"Clown Pirate [Lv. 10]",
 		"Shadow Master [Lv. 1600]",
@@ -345,9 +347,9 @@ if true then --or checkKey
 	
 	local no_monster
 	local function updateNoMonster()
-		print(_G.Settings.Teleselect)
+		print("_G.Settings.Teleselect".. _G.Settings.Teleselect)
 		local teleselectLevel = tonumber(_G.Settings.monster_selected:match("%d+")) -- Lấy số Level từ chuỗi monster_selected
-		print(teleselectLevel)
+		print("teleselectLevel".. (teleselectLevel or ""))
 		local questLevelPartName = "QuestLvl" .. (teleselectLevel or "") -- Tạo chuỗi tên QuestLvl tương ứng
 		
 		if _G.Settings.monster_selected == "Desert Thief [Lv. 3125]" then
@@ -375,7 +377,7 @@ if true then --or checkKey
 			no_monster = game.Workspace.AllNPC.QuestLvl3375.CFrame + Vector3.new(0, 5, 0) -- Vị trí spawn với độ cao +5
 	
 		else			------------------------------------Neu ko phai truong hop dac biet ke tren thi Kiem tra so trong ten roi doi chieu voi part tele. 			-- Kiểm tra và gán vị trí no_monster dựa trên tên QuestLvl
-
+			print("monster ko dac biet")
 			if game.Workspace.AllNPC:FindFirstChild(questLevelPartName) then
 				no_monster = game.Workspace.AllNPC[questLevelPartName].CFrame + Vector3.new(0, 0, 5) -- Vị trí spawn với độ cao +5
 			else
@@ -396,7 +398,7 @@ if true then --or checkKey
 			teleportToTarget(no_monster)
 		end
 	end
-	
+	local monsterSelected
 	local teleRunning = false -- Biến flag để kiểm tra trạng thái của vòng lặp TeleON
 print("tạo nút Farm selected")
 	x:AddToggle({
@@ -418,13 +420,14 @@ print("tạo nút Farm selected")
 											
 									_G.Settings.target = false
 									print("Ko đánh....1 ")
-											saveSettings()
+											--saveSettings()
 									
 									if #monsters <= 0 then
 										teleportIfNoMonster()
 										_G.Settings.target = false
 										print("Ko đánh....do ko co muc tieu ")
 										saveSettings()
+										
 										if _G.Settings.monster_selected ~= monsterSelected then
 											monsterSelected = _G.Settings.monster_selected
 											updateNoMonster()
@@ -440,10 +443,10 @@ print("tạo nút Farm selected")
 										-- Save monster if attacked
 										_G.Settings.target = true
 										print("ATTACKKKKKKKKKKKKKKKKKKKKKK")
-										saveSettings()
+										--saveSettings()
 										
 
-										wait()
+										wait(0.01)
 									end
 								until not _G.Settings.TeleON or _G.Settings.Teleselect ~= Tele[1]
 
@@ -455,6 +458,7 @@ print("tạo nút Farm selected")
 						elseif _G.Settings.Teleselect == Tele[3] then
 							-- Xử lý Tele 3
 						end
+						wait(0.01)
 					end
 
 					teleRunning = false
