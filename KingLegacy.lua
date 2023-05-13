@@ -255,7 +255,7 @@ print("10")
 if true then --or checkKey
 	print("1.0")
 	-- Tạo UI nếu có Key đúng
-	local v = u:MakeWindow({Name = "     AutoPlayer - King Legacy BETA 1.1 - Add Quest", HidePremium = true})
+	local v = u:MakeWindow({Name = "     AutoPlayer  - King Legacy BETA 1", HidePremium = true})
 	print("1.1")
 	--local w = v:MakeTab({Name = "Auto Mode", PremiumOnly = false})
 	local x = v:MakeTab({Name = "Manual Mode", PremiumOnly = false})
@@ -370,6 +370,9 @@ if true then --or checkKey
 		elseif _G.Settings.monster_selected == "The Crimson [Lv. 3375]" then
 			no_monster = game.Workspace.AllNPC.QuestLvl3375.CFrame + Vector3.new(0, 5, 0) -- Vị trí spawn với độ cao +5
 			questLvl ="QuestLvl3375"
+		elseif _G.Settings.monster_selected == "King Samurai [Lv. 3500]" then
+			no_monster = game.Workspace.Island.["A - Japan"].["King Samurai Spawn"].CFrame + Vector3.new(0, 5, 0) -- Vị trí spawn với độ cao +5
+			
 
 		else			------------------------------------Neu ko phai truong hop dac biet ke tren thi Kiem tra so trong ten roi doi chieu voi part tele. 			-- Kiểm tra và gán vị trí no_monster dựa trên tên QuestLvl
 			print("monster ko dac biet")
