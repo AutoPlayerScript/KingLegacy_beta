@@ -47,8 +47,18 @@ _G.Settings = {
 	khoangcach = 10,
 	target = false,
 	
-	quest = "No Quest"
-
+	quest = "No Quest",
+	
+	FarmAuto = false,
+	
+	GSAuto = false,
+	KaidoAuto = false,
+	OdenAuto = false,
+	Seaking = false,
+	Bigmom = false,
+	Hydra = false
+	
+	
 
 
 
@@ -255,9 +265,9 @@ print("10")
 if true then --or checkKey
 	print("1.0")
 	-- Tạo UI nếu có Key đúng
-	local v = u:MakeWindow({Name = "     AutoPlayer  - King Legacy BETA 1", HidePremium = true})
+	local v = u:MakeWindow({Name = "     AutoPlayer  - King Legacy BETA 1.1", HidePremium = true})
 	print("1.1")
-	--local w = v:MakeTab({Name = "Auto Mode", PremiumOnly = false})
+	local w = v:MakeTab({Name = "Auto Mode", PremiumOnly = false})
 	local x = v:MakeTab({Name = "Manual Mode", PremiumOnly = false})
 	print("1.2")
 	local y = v:MakeTab({Name = "Skill & Tele", PremiumOnly = false})
@@ -283,6 +293,7 @@ if true then --or checkKey
 		"True Karate Fishman [Lv. 1850]",
 		"-----Sea 2-------",
 		"Powerful Beast Pirate [Lv. 2450]",
+		"Violet Samurai [Lv. 2500]",
 		"Kitsune Samurai [Lv. 2650]",
 		--"Skull Pirate [Lv. 3050]",
 		"Elite Skeleton [Lv. 3100]",
@@ -293,11 +304,13 @@ if true then --or checkKey
 		"Prince Aria[Lv. 3700]",
 		"Floffy [Lv. 3775]",
 		"Dead Troupe [Lv. 3800]",
-		"WaitUpdate More Monster",
-		"------If boss Error------",
+		"---WaitUpdate More Monster---",
+		"--------If boss Error---------",
 		"King Samurai [Lv. 3500]",
-		"Big Mother [Lv. 7500]",
-		"Dragon [Lv. 7500]"
+		"SeaKing",
+		"Big Mother [Lv. 7500] - not yet ",
+		"Dragon - not yet"
+		
 	}
 	local Tele ={
 		"Teleport Behind",
@@ -309,12 +322,24 @@ if true then --or checkKey
 
 	local function teleportToTarget(targetPosition)
 		local character = game.Players.LocalPlayer.Character
-		local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+		local humanoidRootPart = nil
+
+		local function waitForHumanoidRootPart()
+			repeat
+				humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+				wait()
+			until humanoidRootPart
+		end
+
+		coroutine.wrap(waitForHumanoidRootPart)()
+
 		humanoidRootPart.CFrame = targetPosition
 	end
 
+
+
 	local function filterMonstersByName(name)
-		local monsterFolders = {game:GetService("Workspace").Monster.Mon, game:GetService("Workspace").Monster.Boss}
+		local monsterFolders = {game:GetService("Workspace").Monster.Mon, game:GetService("Workspace").Monster.Boss, game:GetService("Workspace").SeaMonster, game:GetService("Workspace").GhostMonster }
 		local filteredMonsters = {}
 
 		for _, folder in ipairs(monsterFolders) do
@@ -372,6 +397,34 @@ if true then --or checkKey
 			questLvl ="QuestLvl3375"
 		elseif _G.Settings.monster_selected == "King Samurai [Lv. 3500]" then
 			no_monster = game.Workspace.Island["A - Japan"]["King Samurai Spawn"].CFrame + Vector3.new(0, 5, 0) -- Vị trí spawn với độ cao +5
+		elseif _G.Settings.monster_selected == "SeaKing" then
+			local legacyIsland = nil
+			local hasLegacyIsland = false
+
+			for i = 1, 9 do
+				local legacyIslandModel = game.Workspace.Island:FindFirstChild("Legacy Island" .. i)
+				if legacyIslandModel then
+					legacyIsland = legacyIslandModel
+					hasLegacyIsland = true
+					break
+				end
+			end
+
+			if not hasLegacyIsland then
+				legacyIsland = game.Workspace.Island:FindFirstChild("Legacy Island")
+			end
+
+			if legacyIsland then
+				local chestSpawner = legacyIsland:FindFirstChild("ChestSpawner")
+				if chestSpawner then
+					no_monster = chestSpawner.CFrame + Vector3.new(0, 5, 0)
+				else
+					no_monster = nil
+				end
+			
+			end
+	
+
 			
 
 		else			------------------------------------Neu ko phai truong hop dac biet ke tren thi Kiem tra so trong ten roi doi chieu voi part tele. 			-- Kiểm tra và gán vị trí no_monster dựa trên tên QuestLvl
@@ -392,7 +445,84 @@ if true then --or checkKey
 	updateNoMonster()
 
 	--================================================================
+	w:AddLabel("--IN DEVELOPING WAIT FOR UPDATE--")
+	w:AddLabel("AUTO LEVEL")
+	w:AddLabel("GHOSTSHIP")
+	w:AddLabel("HYDRA")
+	w:AddLabel("SEAKING")
+	w:AddLabel("BIG MOM")
+	w:AddLabel("ODEN")
+	w:AddLabel("HOP SERVER TO FIND BOSS")
+	--[[
+	w:AddToggle({
+		Name = "Auto Farm Level",
+		Default = _G.Settings.FarmAuto,
+		Callback = function(H)
+			_G.Settings.FarmAuto = H
+			saveSettings()
 
+		end
+	})
+	
+
+	
+	w:AddLabel("---------Farm Boss -> TOP to BOT ---------")
+	w:AddToggle({
+		Name = "Ghost Ship",
+		Default = _G.Settings.GSAuto,
+		Callback = function(H)
+			_G.Settings.GSAuto = H
+			saveSettings()
+			
+		end
+	})
+	w:AddToggle({
+		Name = "Hydra",
+		Default = _G.Settings.Hydra,
+		Callback = function(H)
+			_G.Settings.Hydra = H
+			saveSettings()
+
+		end
+	})	
+	w:AddToggle({
+		Name = "Sea King",
+		Default = _G.Settings.Seaking,
+		Callback = function(H)
+			_G.Settings.Seaking = H
+			saveSettings()
+
+		end
+	})	
+	w:AddToggle({
+		Name = "Big Mon",
+		Default = _G.Settings.Bigmom,
+		Callback = function(H)
+			_G.Settings.Bigmom = H
+			saveSettings()
+
+		end
+	})	
+	w:AddToggle({
+		Name = "Oden",
+		Default = _G.Settings.OdenAuto,
+		Callback = function(H)
+			_G.Settings.OdenAuto = H
+			saveSettings()
+
+		end
+	})
+w:AddToggle({
+	Name = "Kaido",
+		Default = _G.Settings.KaidoAuto,
+	Callback = function(H)
+		_G.Settings.KaidoAuto = H
+		saveSettings()
+
+	end
+})
+
+]]
 	---------------------------------------------------------------------
 
 			------------=========================test
