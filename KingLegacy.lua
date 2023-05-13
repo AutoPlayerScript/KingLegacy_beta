@@ -38,7 +38,7 @@ _G.Settings = {
 	FSBSkill=false,
 
 	TeleON = false,
-	Teleselect = "OFF",
+	Teleselect = "Teleport Behind",
 
 	Haki = true,
 	Ken = false,
@@ -255,7 +255,7 @@ print("10")
 if true then --or checkKey
 	print("1.0")
 	-- Tạo UI nếu có Key đúng
-	local v = u:MakeWindow({Name = "     AutoPlayer  - King Legacy BETA 1", HidePremium = true})
+	local v = u:MakeWindow({Name = "     AutoPlayer - King Legacy BETA 1.1 - Add Quest", HidePremium = true})
 	print("1.1")
 	--local w = v:MakeTab({Name = "Auto Mode", PremiumOnly = false})
 	local x = v:MakeTab({Name = "Manual Mode", PremiumOnly = false})
@@ -267,7 +267,7 @@ if true then --or checkKey
 	local A = v:MakeTab({Name = "Misc", PremiumOnly = false})
 	--local B = v:MakeTab({Name = "Misc & Notification", PremiumOnly = false})
 	local C = v:MakeTab({Name = "☣AutoPlayer☣", PremiumOnly = false})
-	print("11")
+	print("Load GUI OK ")
 	--AutoMode
 
 
@@ -282,6 +282,8 @@ if true then --or checkKey
 		"Rear Admiral [Lv. 1800]",
 		"True Karate Fishman [Lv. 1850]",
 		"-----Sea 2-------",
+		"Powerful Beast Pirate [Lv. 2450]",
+		"Kitsune Samurai [Lv. 2650]",
 		--"Skull Pirate [Lv. 3050]",
 		"Elite Skeleton [Lv. 3100]",
 		"Desert Thief [Lv. 3125]",
@@ -291,7 +293,11 @@ if true then --or checkKey
 		"Prince Aria[Lv. 3700]",
 		"Floffy [Lv. 3775]",
 		"Dead Troupe [Lv. 3800]",
-		"WaitUpdate More Monster"
+		"WaitUpdate More Monster",
+		"------If boss Error------",
+		"King Samurai [Lv. 3500]",
+		"Big Mother [Lv. 7500]",
+		"Dragon [Lv. 7500]"
 	}
 	local Tele ={
 		"Teleport Behind",
@@ -321,9 +327,72 @@ if true then --or checkKey
 
 		return filteredMonsters
 	end
+	
+	-------------------Vitri Spawn khi ko co quai--------------
+
+	local no_monster
+	local questLvl
+	local function updateNoMonster()
+		print("_G.Settings.Teleselect".. _G.Settings.Teleselect)
+		local teleselectLevel = tonumber(_G.Settings.monster_selected:match("%d+")) -- Lấy số Level từ chuỗi monster_selected
+		print("teleselectLevel".. (teleselectLevel or ""))
+		local questLevelPartName = "QuestLvl" .. (teleselectLevel or "") -- Tạo chuỗi tên QuestLvl tương ứng
+
+		if _G.Settings.monster_selected == "Desert Thief [Lv. 3125]" then
+			no_monster = game.Workspace.AllNPC.QuestLvl3100.CFrame + Vector3.new(0, 5, 0) -- Vị trí spawn với độ cao +5
+			questLvl ="QuestLvl3100"
+		elseif _G.Settings.monster_selected == "Anubis [Lv. 3150]" then
+			no_monster = game.Workspace.AllNPC.QuestLvl3125.CFrame + Vector3.new(0, 5, 0) -- Vị trí spawn với độ cao +5
+			questLvl ="QuestLvl3125"
+		elseif _G.Settings.monster_selected == "Pharaoh [Lv. 3175]" then
+			no_monster = game.Workspace.AllNPC.QuestLvl3150.CFrame + Vector3.new(0, 5, 0) -- Vị trí spawn với độ cao +5
+			questLvl ="QuestLvl310"
+		elseif _G.Settings.monster_selected == "Flame User [Lv. 3200]" then
+			no_monster = game.Workspace.AllNPC.QuestLvl3175.CFrame + Vector3.new(0, 5, 0) -- Vị trí spawn với độ cao +5
+			questLvl ="QuestLvl3175"
+		elseif _G.Settings.monster_selected == "Skull Pirate [Lv. 3050]" then
+			no_monster = game.Workspace.AllNPC.QuestLvl3025.CFrame + Vector3.new(0, 5, 0) -- Vị trí spawn với độ cao +5
+			questLvl ="QuestLvl3"
+		elseif _G.Settings.monster_selected == "Elite Skeleton [Lv. 3100]" then
+			no_monster = game.Workspace.AllNPC.QuestLvl3075.CFrame + Vector3.new(0, 5, 0) -- Vị trí spawn với độ cao +5
+			questLvl ="QuestLvl3075"
+		elseif _G.Settings.monster_selected == "DarkBeard [Lv. 3475]" then --summon boss
+			no_monster = game.Workspace.AllNPC.QuestLvl3475.CFrame + Vector3.new(0, 5, 0) -- Vị trí spawn với độ cao +5
+			questLvl ="QuestLvl3475"
+		elseif _G.Settings.monster_selected == "Light [Lv. 3575]" then
+			no_monster = game.Workspace.AllNPC.QuestLvl3575.CFrame + Vector3.new(0, 5, 0) -- Vị trí spawn với độ cao +5
+			questLvl ="QuestLvl3575"
+
+		elseif _G.Settings.monster_selected == "Ice King [Lv. 3350]" then
+			no_monster = game.Workspace.AllNPC.QuestLvl3350.CFrame + Vector3.new(0, 5, 0) -- Vị trí spawn với độ cao +5
+			questLvl ="QuestLvl3350"
+
+		elseif _G.Settings.monster_selected == "The Crimson [Lv. 3375]" then
+			no_monster = game.Workspace.AllNPC.QuestLvl3375.CFrame + Vector3.new(0, 5, 0) -- Vị trí spawn với độ cao +5
+			questLvl ="QuestLvl3375"
+
+		else			------------------------------------Neu ko phai truong hop dac biet ke tren thi Kiem tra so trong ten roi doi chieu voi part tele. 			-- Kiểm tra và gán vị trí no_monster dựa trên tên QuestLvl
+			print("monster ko dac biet")
+			if game.Workspace.AllNPC:FindFirstChild(questLevelPartName) then
+				no_monster = game.Workspace.AllNPC[questLevelPartName].CFrame + Vector3.new(0, 0, 5) -- Vị trí spawn với độ cao +5
+				questLvl ="QuestLvl"..questLevelPartName
+			else
+				no_monster = nil
+				questLvl = nil
+			end
+		end
+
+
+	end
+	print("monster update")
+	-- Cập nhật giá trị của no_monster khi monster_selected thay đổi
+	updateNoMonster()
+
+	--================================================================
 
 	---------------------------------------------------------------------
 
+			------------=========================test
 	x:AddDropdown(
 		{Name = " ⭕ Choose Monster", Default = _G.Settings.monster_selected, Options = Monster, Callback = function(H)
 			_G.Settings.monster_selected = H
@@ -337,62 +406,72 @@ if true then --or checkKey
 		end}
 	)
 	x:AddDropdown(
-		{Name = " ⭕ Quest or No ?!?", Default = _G.Settings.quest, Options = {"No Quest","Quest(WaitForUpdate)"}, Callback = function(H)
+		{Name = " ⭕ Quest or No ?!?", Default = _G.Settings.quest, Options = {"No Quest","Quest"}, Callback = function(H)
 			_G.Settings.quest = H
 			saveSettings()
+			if _G.Settings.quest == "Quest" then
+				task.spawn(function()
+					while _G.Settings.TeleON and _G.Settings.quest == "Quest" do
+						if no_monster ~= nil and true then
+							-- Lấy tên đầy đủ của QuestLvlxxxx từ no_monster
+
+							if questLvl ~= nil then
+								-- Lấy đối tượng QuestLvlxxxx từ workspace.AllNPC
+								local questNPC = workspace.AllNPC:WaitForChild(questLvl)
+								--print("questLvl "..questLvl)
+								-- Gọi nhiệm vụ
+								local args = {
+									[1] = questNPC
+								}
+								game:GetService("ReplicatedStorage").Remotes.Functions:WaitForChild("CheckQuest"):InvokeServer(unpack(args))
+								-- Bấm Accept-------------------------
+								-- Lấy Gui
+								-- Kiểm tra sự tồn tại của acceptButton
+								local acceptButtonExists, acceptButton = pcall(function()
+									return game.Players.LocalPlayer.PlayerGui[questLvl].Dialogue.Accept
+								end)
+
+								if acceptButtonExists then
+									-- Truy cập acceptButton thành công
+									wait(1)
+									local function clickImageButton(button)
+										local position = button.AbsolutePosition
+										local size = button.AbsoluteSize
+
+										-- Calculate the click position relative to the acceptButton
+										local clickX = position.X + size.X/2
+										local clickY = position.Y + size.Y/2
+
+										-- Move the mouse cursor to the click position
+										mousemoveabs(clickX, clickY)
+
+										-- Simulate left mouse button click
+										mouse1click()
+										print("Clicked nut Accept")
+									end
+
+									clickImageButton(acceptButton)
+									wait(0.5)
+									clickImageButton(acceptButton)
+									wait(5)
+									-- OK CODE
+								else
+									acceptButton = nil
+								end
+
+							else
+								wait(3)
+							end
+						end
+					end -- end while
+
+				end)
+			end
 		end}
 	)
+
 	--=============================================================================================--=============================================================================================
-	-------------------Vitri Spawn khi ko co quai--------------
 	
-	local no_monster
-	local function updateNoMonster()
-		print("_G.Settings.Teleselect".. _G.Settings.Teleselect)
-		local teleselectLevel = tonumber(_G.Settings.monster_selected:match("%d+")) -- Lấy số Level từ chuỗi monster_selected
-		print("teleselectLevel".. (teleselectLevel or ""))
-		local questLevelPartName = "QuestLvl" .. (teleselectLevel or "") -- Tạo chuỗi tên QuestLvl tương ứng
-		
-		if _G.Settings.monster_selected == "Desert Thief [Lv. 3125]" then
-			no_monster = game.Workspace.AllNPC.QuestLvl3100.CFrame + Vector3.new(0, 5, 0) -- Vị trí spawn với độ cao +5
-		elseif _G.Settings.monster_selected == "Anubis [Lv. 3150]" then
-			no_monster = game.Workspace.AllNPC.QuestLvl3125.CFrame + Vector3.new(0, 5, 0) -- Vị trí spawn với độ cao +5
-		elseif _G.Settings.monster_selected == "Pharaoh [Lv. 3175]" then
-			no_monster = game.Workspace.AllNPC.QuestLvl3150.CFrame + Vector3.new(0, 5, 0) -- Vị trí spawn với độ cao +5
-		elseif _G.Settings.monster_selected == "Flame User [Lv. 3200]" then
-			no_monster = game.Workspace.AllNPC.QuestLvl3175.CFrame + Vector3.new(0, 5, 0) -- Vị trí spawn với độ cao +5
-		elseif _G.Settings.monster_selected == "Skull Pirate [Lv. 3050]" then
-			no_monster = game.Workspace.AllNPC.QuestLvl3025.CFrame + Vector3.new(0, 5, 0) -- Vị trí spawn với độ cao +5
-		elseif _G.Settings.monster_selected == "Elite Skeleton [Lv. 3100]" then
-			no_monster = game.Workspace.AllNPC.QuestLvl3075.CFrame + Vector3.new(0, 5, 0) -- Vị trí spawn với độ cao +5
-		elseif _G.Settings.monster_selected == "DarkBeard [Lv. 3475]" then --summon boss
-			no_monster = game.Workspace.AllNPC.QuestLvl3475.CFrame + Vector3.new(0, 5, 0) -- Vị trí spawn với độ cao +5
-			
-		elseif _G.Settings.monster_selected == "Light [Lv. 3575]" then
-			no_monster = game.Workspace.AllNPC.QuestLvl3575.CFrame + Vector3.new(0, 5, 0) -- Vị trí spawn với độ cao +5
-			
-		elseif _G.Settings.monster_selected == "Ice King [Lv. 3350]" then
-			no_monster = game.Workspace.AllNPC.QuestLvl3350.CFrame + Vector3.new(0, 5, 0) -- Vị trí spawn với độ cao +5
-	
-		elseif _G.Settings.monster_selected == "The Crimson [Lv. 3375]" then
-			no_monster = game.Workspace.AllNPC.QuestLvl3375.CFrame + Vector3.new(0, 5, 0) -- Vị trí spawn với độ cao +5
-	
-		else			------------------------------------Neu ko phai truong hop dac biet ke tren thi Kiem tra so trong ten roi doi chieu voi part tele. 			-- Kiểm tra và gán vị trí no_monster dựa trên tên QuestLvl
-			print("monster ko dac biet")
-			if game.Workspace.AllNPC:FindFirstChild(questLevelPartName) then
-				no_monster = game.Workspace.AllNPC[questLevelPartName].CFrame + Vector3.new(0, 0, 5) -- Vị trí spawn với độ cao +5
-			else
-				no_monster = nil
-			end
-		end
-		
-
-	end
-	print("monster update")
-	-- Cập nhật giá trị của no_monster khi monster_selected thay đổi
-	updateNoMonster()
-
-	--================================================================
-
 	local function teleportIfNoMonster()
 		if no_monster ~= nil then
 			teleportToTarget(no_monster)
@@ -419,13 +498,13 @@ print("tạo nút Farm selected")
 									local monsters = filterMonstersByName(_G.Settings.monster_selected)
 											
 									_G.Settings.target = false
-									print("Ko đánh....1 ")
+									--print("Ko đánh....1 ")
 											--saveSettings()
 									
 									if #monsters <= 0 then
 										teleportIfNoMonster()
 										_G.Settings.target = false
-										print("Ko đánh....do ko co muc tieu ")
+										--print("Ko đánh....do ko co muc tieu ")
 										saveSettings()
 										
 										if _G.Settings.monster_selected ~= monsterSelected then
@@ -442,7 +521,7 @@ print("tạo nút Farm selected")
 
 										-- Save monster if attacked
 										_G.Settings.target = true
-										print("ATTACKKKKKKKKKKKKKKKKKKKKKK")
+										--print("ATTACKKKKKKKKKKKKKKKKKKKKKK")
 										--saveSettings()
 										
 
