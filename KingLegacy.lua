@@ -408,6 +408,7 @@ if true then --or checkKey
 					hasLegacyIsland = true
 					break
 				end
+				wait()
 			end
 
 			if not hasLegacyIsland then
@@ -422,10 +423,7 @@ if true then --or checkKey
 					no_monster = nil
 				end
 			
-			end
-	
-
-			
+			end	
 
 		else			------------------------------------Neu ko phai truong hop dac biet ke tren thi Kiem tra so trong ten roi doi chieu voi part tele. 			-- Kiểm tra và gán vị trí no_monster dựa trên tên QuestLvl
 			print("monster ko dac biet")
@@ -596,6 +594,7 @@ w:AddToggle({
 								wait(3)
 							end
 						end
+						wait()
 					end -- end while
 
 				end)
@@ -612,7 +611,8 @@ w:AddToggle({
 	end
 	local monsterSelected
 	local teleRunning = false -- Biến flag để kiểm tra trạng thái của vòng lặp TeleON
-print("tạo nút Farm selected")
+	print("tạo nút Farm selected")
+	
 	x:AddToggle({
 		Name = "Farm Selected",
 		Default = _G.Settings.TeleON,
@@ -665,8 +665,72 @@ print("tạo nút Farm selected")
 								teleRunning = false
 							end)
 
-						elseif _G.Settings.Teleselect == Tele[2] then
+						elseif _G.Settings.Teleselect == Tele[2] then -- ONTOP
 							-- Xử lý Tele 2
+								local function lieDown(target)
+									local targetPosition = target.HumanoidRootPart.CFrame.Position
+									local playerPosition = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Position
+									local offset = targetPosition - playerPosition
+									local newPosition = playerPosition + offset
+									local newCFrame = CFrame.new(newPosition)
+									newCFrame.Y = newCFrame.Y - 10
+									newCFrame.Z = newCFrame.Z + 10
+									newCFrame.Yaw = newCFrame.Yaw + 90
+									game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = newCFrame
+
+									local function checkDistance()
+										local distance = (targetPosition - playerPosition).Magnitude
+										return distance < 20
+									end
+
+									while checkDistance() do
+										wait(0.1)
+									end
+
+									local function onMonsterDeath()
+										changeTarget()
+									end
+
+									target.Died:Connect(onMonsterDeath)
+								end
+
+								pcall(function()
+									repeat
+										local monsters = filterMonstersByName(_G.Settings.monster_selected)
+
+										_G.Settings.target = false
+										--print("Ko đánh....1 ")
+
+										if #monsters <= 0 then
+											teleportIfNoMonster()
+											_G.Settings.target = false
+											--print("Ko đánh....do ko co muc tieu ")
+
+											if _G.Settings.monster_selected ~= monsterSelected then
+												monsterSelected = _G.Settings.monster_selected
+												updateNoMonster()
+												teleportIfNoMonster()
+											end
+											wait(3)
+										else
+											local targetMonster = monsters[1]
+											local targetPosition = targetMonster.HumanoidRootPart.CFrame - targetMonster.HumanoidRootPart.CFrame.lookVector * 5
+											teleportToTarget(targetPosition)
+
+											-- Save monster if attacked
+											_G.Settings.target = true
+											--print("ATTACKKKKKKKKKKKKKKKKKKKKKK")
+
+											lieDown(targetMonster)
+
+											wait(0.01)
+										end
+									until not _G.Settings.TeleON or _G.Settings.Teleselect ~= Tele[2]
+
+									teleRunning = false
+								end)
+							
+						
 						elseif _G.Settings.Teleselect == Tele[3] then
 							-- Xử lý Tele 3
 						end
