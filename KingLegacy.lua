@@ -265,7 +265,7 @@ print("10")
 if true then --or checkKey
 	print("1.0")
 	-- Tạo UI nếu có Key đúng
-	local v = u:MakeWindow({Name = "     AutoPlayer  - King Legacy BETA 1.1", HidePremium = true})
+	local v = u:MakeWindow({Name = "     AutoPlayer  - King Legacy BETA 1.2", HidePremium = true})
 	print("1.1")
 	local w = v:MakeTab({Name = "Auto Mode", PremiumOnly = false})
 	local x = v:MakeTab({Name = "Manual Mode", PremiumOnly = false})
@@ -337,22 +337,32 @@ if true then --or checkKey
 	end
 
 
-
+	
+	
+	
 	local function filterMonstersByName(name)
-		local monsterFolders = {game:GetService("Workspace").Monster.Mon, game:GetService("Workspace").Monster.Boss, game:GetService("Workspace").SeaMonster, game:GetService("Workspace").GhostMonster }
 		local filteredMonsters = {}
 
+		local monsterFolders = {
+			game:GetService("Workspace").Monster:FindFirstChild("Mon"),
+			game:GetService("Workspace").Monster:FindFirstChild("Boss"),
+			game:GetService("Workspace"):FindFirstChild("SeaMonster"),
+			game:GetService("Workspace"):FindFirstChild("GhostMonster")
+		}
+
 		for _, folder in ipairs(monsterFolders) do
-			for _, monster in ipairs(folder:GetChildren()) do
-				if monster.Name == name and monster:IsA("Model") and monster:FindFirstChild("Humanoid") and monster.Humanoid.Health > 0 then
-					table.insert(filteredMonsters, monster)
+			if folder and folder:IsA("Folder") then
+				for _, monster in ipairs(folder:GetChildren()) do
+					if monster.Name == name and monster:IsA("Model") and monster:FindFirstChild("Humanoid") and monster.Humanoid.Health > 0 then
+						table.insert(filteredMonsters, monster)
+					end
 				end
 			end
 		end
 
 		return filteredMonsters
 	end
-	
+
 	-------------------Vitri Spawn khi ko co quai--------------
 
 	local no_monster
@@ -618,20 +628,25 @@ w:AddToggle({
 		Default = _G.Settings.TeleON,
 		Callback = function(H)
 			_G.Settings.TeleON = H
+			print("BAT/Tat Farm selected")
 			saveSettings()
 
 			if _G.Settings.TeleON then
+				print("TeleON")
 				task.spawn(function()
 					while _G.Settings.TeleON do
 						teleRunning = true
+						print("teleRunning")
 
 						if _G.Settings.Teleselect == Tele[1] then
+							print("Teleselect = Tele[1]")
 							pcall(function()
 								repeat
+									print("Repeat  ")
 									local monsters = filterMonstersByName(_G.Settings.monster_selected)
-											
+									print(monsters)
 									_G.Settings.target = false
-									--print("Ko đánh....1 ")
+									print("Ko đánh....1 ")
 											--saveSettings()
 									
 									if #monsters <= 0 then
@@ -648,6 +663,7 @@ w:AddToggle({
 										end
 										wait(3)
 									else
+										print("so luong monsters >0 tele and ...." )
 										local targetMonster = monsters[1]
 										local targetPosition = targetMonster.HumanoidRootPart.CFrame - targetMonster.HumanoidRootPart.CFrame.lookVector * 5
 										teleportToTarget(targetPosition)
