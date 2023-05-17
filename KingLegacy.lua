@@ -439,7 +439,7 @@ if true then --or checkKey
 			print("monster ko dac biet")
 			if game.Workspace.AllNPC:FindFirstChild(questLevelPartName) then
 				no_monster = game.Workspace.AllNPC[questLevelPartName].CFrame + Vector3.new(0, 0, 5) -- Vị trí spawn với độ cao +5
-				questLvl ="QuestLvl"..questLevelPartName
+				questLvl =questLevelPartName
 			else
 				no_monster = nil
 				questLvl = nil
@@ -549,22 +549,27 @@ w:AddToggle({
 	x:AddDropdown(
 		{Name = " ⭕ Quest or No ?!?", Default = _G.Settings.quest, Options = {"No Quest","Quest"}, Callback = function(H)
 			_G.Settings.quest = H
+			print("Nhan quest BAT TAT")
+			print("questLvl "..questLvl)
+			print(no_monster)
 			saveSettings()
 			if _G.Settings.quest == "Quest" then
 				task.spawn(function()
 					while _G.Settings.TeleON and _G.Settings.quest == "Quest" do
+						print("Nhan quest")
 						if no_monster ~= nil and true then
 							-- Lấy tên đầy đủ của QuestLvlxxxx từ no_monster
-
+							print("questLvl "..questLvl)
 							if questLvl ~= nil then
 								-- Lấy đối tượng QuestLvlxxxx từ workspace.AllNPC
-								local questNPC = workspace.AllNPC:WaitForChild(questLvl)
-								--print("questLvl "..questLvl)
+								local questNPC = workspace.AllNPC:FindFirstChild(questLvl)
+								print("questLvl "..questLvl)
 								-- Gọi nhiệm vụ
 								local args = {
 									[1] = questNPC
 								}
 								game:GetService("ReplicatedStorage").Remotes.Functions:WaitForChild("CheckQuest"):InvokeServer(unpack(args))
+
 								-- Bấm Accept-------------------------
 								-- Lấy Gui
 								-- Kiểm tra sự tồn tại của acceptButton
@@ -642,11 +647,11 @@ w:AddToggle({
 							print("Teleselect = Tele[1]")
 							pcall(function()
 								repeat
-									print("Repeat  ")
+									--print("Repeat  ")
 									local monsters = filterMonstersByName(_G.Settings.monster_selected)
-									print(monsters)
+									--print(monsters)
 									_G.Settings.target = false
-									print("Ko đánh....1 ")
+									--print("Ko đánh....1 ")
 											--saveSettings()
 									
 									if #monsters <= 0 then
@@ -663,7 +668,7 @@ w:AddToggle({
 										end
 										wait(3)
 									else
-										print("so luong monsters >0 tele and ...." )
+										--print("so luong monsters >0 tele and ...." )
 										local targetMonster = monsters[1]
 										local targetPosition = targetMonster.HumanoidRootPart.CFrame - targetMonster.HumanoidRootPart.CFrame.lookVector * 5
 										teleportToTarget(targetPosition)
