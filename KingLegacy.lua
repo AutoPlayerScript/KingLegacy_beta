@@ -481,7 +481,7 @@ if true then --or checkKey
 
 	--================================================================
 	local H = Y.TextField({
-	Text = "Country",
+	Text = "Welcome to Viet Nam",
 	Callback = function(Value)
 		print(Value)
 	end,
@@ -496,6 +496,12 @@ if true then --or checkKey
 			self.SetText("AUTO BOSS + LEVEL")
 		end
 	}
+})
+local H1 = Y.TextField({
+	Text = "Vui lòng đợi 1800 năm sau để update",
+	Callback = function(Value)
+		print(Value)
+	end
 })
 	--[[
 	w:AddToggle({
@@ -818,14 +824,14 @@ local MonsterChosen = Z.Dropdown({
                                 ["Type"] = "Down"
                             },
                         }
-
+						wait(0.01)
                         game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Functions"):WaitForChild("SkillAction"):InvokeServer(unpack(args))
                         if _G.Settings.super_Attack then 
                             --melee
                             local args = {
                                 [1] = fsName
                             }
-
+wait(0.01)
                             game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Functions"):WaitForChild("SkillAction"):InvokeServer(unpack(args))
                             --df
                             local args = {
@@ -835,11 +841,11 @@ local MonsterChosen = Z.Dropdown({
                                     ["Type"] = "Down"
                                 },
                             }
-
+wait(0.01)
                             game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Functions"):WaitForChild("SkillAction"):InvokeServer(unpack(args))
                         end
                     end
-                    wait() -- Đợi một khoảng thời gian trước khi gọi lại hàm
+                    wait(0.01) -- Đợi một khoảng thời gian trước khi gọi lại hàm
                 end
             end)
         else
@@ -1152,4 +1158,27 @@ end)
 ]]
 
 	
+
+
+
+	--[[local toggle = C.Button({
+		Text = "Change Sea 1<=>2",
+		Icon = "click",
+		Callback = function()
+			--setclipboard(linkDONATE) --linkverse earning 
+			u:MakeNotification({Name = "☣ AutoPlayer ☣", Content = "Link DONATE has coppied paste to your browser ", Time = 3})
+			local args = {
+				[1] = workspace:WaitForChild("AllNPC"):WaitForChild("Elite Pirate")
+			}
+
+			game.ReplicatedStorage.Remotes.Functions.CheckQuest:InvokeServer(unpack(args))
+				print("Create GUI ")
+
+		end
+
+	}) 
+	
+
+	--end o day-------------------]]
 end
+
