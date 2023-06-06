@@ -941,7 +941,7 @@ w:AddToggle({
 				if H then
 					task.spawn(function()
 						while _G.Settings["SW" .. skillKey .. "Skill"] do
-							if _G.Settings.target then
+							if _G.Settings.target and (_G.Settings.TeleON or false) then -- doi false thanh danh boss chang han 
 								task.spawn(function()
 									sendSkillDown("SW", skillKey)
 									task.wait(0.1)
@@ -967,7 +967,7 @@ w:AddToggle({
 				if H then
 					task.spawn(function()
 						while _G.Settings["FS" .. skillKey .. "Skill"] do
-							if _G.Settings.target then
+							if _G.Settings.target and (_G.Settings.TeleON or false) then -- doi false thanh danh boss chang han 
 								task.spawn(function()
 									sendSkillDown("FS", skillKey)
 									task.wait(0.1)
@@ -993,7 +993,7 @@ w:AddToggle({
 				if H then
 					task.spawn(function()
 						while _G.Settings["DF" .. skillKey .. "Skill"] do
-							if _G.Settings.target then
+							if _G.Settings.target and (_G.Settings.TeleON or false) then -- doi false thanh danh boss chang han 
 								task.spawn(function()
 									sendSkillDown("DF", skillKey)
 									task.wait(0.1)
