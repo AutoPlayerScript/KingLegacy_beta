@@ -671,10 +671,10 @@ w:AddToggle({
 				task.spawn(function()
 					while _G.Settings.TeleON do
 						teleRunning = true
-						print("teleRunning")
+						--print("teleRunning")
 
 						if _G.Settings.Teleselect == Tele[1] then
-							print("Teleselect = Tele[1]")
+							--print("Teleselect = Tele[1]")
 							pcall(function()
 								repeat
 									--print("Repeat  ")
@@ -1037,6 +1037,7 @@ w:AddToggle({
 			task.spawn(function()
 				while _G.Settings.Haki do
 					task.wait(4)
+					print("checking haki.........")
 					local playerName = game:GetService("Players").LocalPlayer.Name
 					local hakiValue = Workspace.PlayerCharacters:WaitForChild(playerName).Haki.Value
 					if hakiValue == 0 then
