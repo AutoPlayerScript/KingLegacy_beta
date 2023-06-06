@@ -3,8 +3,8 @@ if not game:IsLoaded() then
 	game.Loaded:Wait()
 end
 print("2")
---local rawlinkcallback = "https://raw.githubusercontent.com/AutoPlayerScript/AnimeDimension/main/ADS.lua"
-local rawlinkGUI = "https://raw.githubusercontent.com/AutoPlayerScript/AutoPlayerGui/main/ThiefGUI.lua"
+local rawlinkcallback = "https://raw.githubusercontent.com/AutoPlayerScript/AnimeDimension/main/ADS.lua"
+local rawlinkGUI = "https://raw.githubusercontent.com/AutoPlayerScript/AnimeDimension/main/LibGui.lua"
 local linkdiscord ="https://discord.gg/QJBEq64dc3"
 local linkkey24h ="https://work.ink/4zX/GetKey"
 local SCRIPT1 ="I'm too happy. It's coming soon"
@@ -12,6 +12,7 @@ local SCRIPT2 ="I'm too happy. It's coming soon"
 local SCRIPT3 ="I'm too happy. It's coming soon"
 local linkDONATE="https://work.ink/4zX/DONATEME"
 local adminCode = "eventfree0user"
+
 
 
 _G.Settings = {
@@ -45,19 +46,19 @@ _G.Settings = {
 
 	khoangcach = 10,
 	target = false,
-	
+
 	quest = "No Quest",
-	
+
 	FarmAuto = false,
-	
+
 	GSAuto = false,
 	KaidoAuto = false,
 	OdenAuto = false,
 	Seaking = false,
 	Bigmom = false,
 	Hydra = false
-	
-	
+
+
 
 
 
@@ -264,46 +265,18 @@ print("10")
 if true then --or checkKey
 	print("1.0")
 	-- Tạo UI nếu có Key đúng
-	--local v = u:MakeWindow({Name = "     AutoPlayer  - King Legacy BETA 1.2", HidePremium = true})
-	local X = u.Load({
-	Title = "☣AutoPlayer☣ - Chơi game một cách tự động",
-	Style = 1,
-	SizeX = 550,
-	SizeY = 325,
-	Theme = "Light",
-	ColorOverrides = {
-		MainFrame = Color3.fromRGB(235,235,235)
-	}
-})
+	local v = u:MakeWindow({Name = "     AutoPlayer  - King Legacy BETA 1.2", HidePremium = true})
 	print("1.1")
-	--local w = v:MakeTab({Name = "Auto Mode", PremiumOnly = false})
-	local Y = X.New({
-	Title = "Auto Mode"
-})
-	--local x = v:MakeTab({Name = "Manual Mode", PremiumOnly = false})
-		local Z = X.New({
-	Title = "Manual Mode"
-})
+	local w = v:MakeTab({Name = "Auto Mode", PremiumOnly = false})
+	local x = v:MakeTab({Name = "Manual Mode", PremiumOnly = false})
 	print("1.2")
-	--local y = v:MakeTab({Name = "Skill & Tele", PremiumOnly = false})
-		local A = X.New({
-	Title = "Skill & Tele"
-})
+	local y = v:MakeTab({Name = "Skill & Tele", PremiumOnly = false})
 	print("1.3")
-	--local z = v:MakeTab({Name = "Equip Auto", PremiumOnly = false})
-		local B = X.New({
-	Title = "Equip Auto"
-})
+	local z = v:MakeTab({Name = "Equip Auto", PremiumOnly = false})
 	print("1.4")
-	--local A = v:MakeTab({Name = "Misc", PremiumOnly = false})
-		local C = X.New({
-	Title = "Misc"
-})
+	local A = v:MakeTab({Name = "Misc", PremiumOnly = false})
 	--local B = v:MakeTab({Name = "Misc & Notification", PremiumOnly = false})
-	--local C = v:MakeTab({Name = "☣AutoPlayer☣", PremiumOnly = false})
-		local D = X.New({
-	Title = "☣AutoPlayer☣"
-})
+	local C = v:MakeTab({Name = "☣AutoPlayer☣", PremiumOnly = false})
 	print("Load GUI OK ")
 	--AutoMode
 
@@ -337,7 +310,7 @@ if true then --or checkKey
 		"SeaKing",
 		"Big Mother [Lv. 7500] - not yet ",
 		"Dragon - not yet"
-		
+
 	}
 	local Tele ={
 		"Teleport Behind",
@@ -364,18 +337,19 @@ if true then --or checkKey
 	end
 
 
-	
-	
-	
+
+
+
 	local function filterMonstersByName(name)
 		local filteredMonsters = {}
 
 		local monsterFolders = {
-			game:GetService("Workspace").Monster:FindFirstChild("Mon"),
-			game:GetService("Workspace").Monster:FindFirstChild("Boss"),
+			game:GetService("Workspace").Monster and game:GetService("Workspace").Monster:FindFirstChild("Mon"),
+			game:GetService("Workspace").Monster and game:GetService("Workspace").Monster:FindFirstChild("Boss"),
 			game:GetService("Workspace"):FindFirstChild("SeaMonster"),
 			game:GetService("Workspace"):FindFirstChild("GhostMonster")
 		}
+
 
 		for _, folder in ipairs(monsterFolders) do
 			if folder and folder:IsA("Folder") then
@@ -394,46 +368,55 @@ if true then --or checkKey
 
 	local no_monster
 	local questLvl
+
+	local function getMonsterCFrame(cframe)
+		local success, result = pcall(function()
+			return cframe.CFrame
+		end)
+
+		if success then
+			return result + Vector3.new(0, 5, 0)
+		else
+			return nil
+		end
+	end
+
 	local function updateNoMonster()
-		print("_G.Settings.Teleselect".. _G.Settings.Teleselect)
-		local teleselectLevel = tonumber(_G.Settings.monster_selected:match("%d+")) -- Lấy số Level từ chuỗi monster_selected
-		print("teleselectLevel".. (teleselectLevel or ""))
-		local questLevelPartName = "QuestLvl" .. (teleselectLevel or "") -- Tạo chuỗi tên QuestLvl tương ứng
+		local monster_selected = _G.Settings.monster_selected
 
-		if _G.Settings.monster_selected == "Desert Thief [Lv. 3125]" then
-			no_monster = game.Workspace.AllNPC.QuestLvl3100.CFrame + Vector3.new(0, 5, 0) -- Vị trí spawn với độ cao +5
-			questLvl ="QuestLvl3100"
-		elseif _G.Settings.monster_selected == "Anubis [Lv. 3150]" then
-			no_monster = game.Workspace.AllNPC.QuestLvl3125.CFrame + Vector3.new(0, 5, 0) -- Vị trí spawn với độ cao +5
-			questLvl ="QuestLvl3125"
-		elseif _G.Settings.monster_selected == "Pharaoh [Lv. 3175]" then
-			no_monster = game.Workspace.AllNPC.QuestLvl3150.CFrame + Vector3.new(0, 5, 0) -- Vị trí spawn với độ cao +5
-			questLvl ="QuestLvl310"
-		elseif _G.Settings.monster_selected == "Flame User [Lv. 3200]" then
-			no_monster = game.Workspace.AllNPC.QuestLvl3175.CFrame + Vector3.new(0, 5, 0) -- Vị trí spawn với độ cao +5
-			questLvl ="QuestLvl3175"
-		elseif _G.Settings.monster_selected == "Skull Pirate [Lv. 3050]" then
-			no_monster = game.Workspace.AllNPC.QuestLvl3025.CFrame + Vector3.new(0, 5, 0) -- Vị trí spawn với độ cao +5
-			questLvl ="QuestLvl3"
-		elseif _G.Settings.monster_selected == "Elite Skeleton [Lv. 3100]" then
-			no_monster = game.Workspace.AllNPC.QuestLvl3075.CFrame + Vector3.new(0, 5, 0) -- Vị trí spawn với độ cao +5
-			questLvl ="QuestLvl3075"
-		elseif _G.Settings.monster_selected == "DarkBeard [Lv. 3475]" then --summon boss
-			no_monster = game.Workspace.AllNPC.QuestLvl3475.CFrame + Vector3.new(0, 5, 0) -- Vị trí spawn với độ cao +5
-			questLvl ="QuestLvl3475"
-		elseif _G.Settings.monster_selected == "Light [Lv. 3575]" then
-			no_monster = game.Workspace.AllNPC.QuestLvl3575.CFrame + Vector3.new(0, 5, 0) -- Vị trí spawn với độ cao +5
-			questLvl ="QuestLvl3575"
-
-		elseif _G.Settings.monster_selected == "Ice King [Lv. 3350]" then
-			no_monster = game.Workspace.AllNPC.QuestLvl3350.CFrame + Vector3.new(0, 5, 0) -- Vị trí spawn với độ cao +5
-			questLvl ="QuestLvl3350"
-
-		elseif _G.Settings.monster_selected == "The Crimson [Lv. 3375]" then
-			no_monster = game.Workspace.AllNPC.QuestLvl3375.CFrame + Vector3.new(0, 5, 0) -- Vị trí spawn với độ cao +5
-			questLvl ="QuestLvl3375"
-		elseif _G.Settings.monster_selected == "King Samurai [Lv. 3500]" then
-			no_monster = game.Workspace.Island["A - Japan"]["King Samurai Spawn"].CFrame + Vector3.new(0, 5, 0) -- Vị trí spawn với độ cao +5
+		if monster_selected == "Desert Thief [Lv. 3125]" then
+			no_monster = getMonsterCFrame(game.Workspace.AllNPC.QuestLvl3100)
+			questLvl = "QuestLvl3100"
+		elseif monster_selected == "Anubis [Lv. 3150]" then
+			no_monster = getMonsterCFrame(game.Workspace.AllNPC.QuestLvl3125)
+			questLvl = "QuestLvl3125"
+		elseif monster_selected == "Pharaoh [Lv. 3175]" then
+			no_monster = getMonsterCFrame(game.Workspace.AllNPC.QuestLvl3150)
+			questLvl = "QuestLvl310"
+		elseif monster_selected == "Flame User [Lv. 3200]" then
+			no_monster = getMonsterCFrame(game.Workspace.AllNPC.QuestLvl3175)
+			questLvl = "QuestLvl3175"
+		elseif monster_selected == "Skull Pirate [Lv. 3050]" then
+			no_monster = getMonsterCFrame(game.Workspace.AllNPC.QuestLvl3025)
+			questLvl = "QuestLvl3"
+		elseif monster_selected == "Elite Skeleton [Lv. 3100]" then
+			no_monster = getMonsterCFrame(game.Workspace.AllNPC.QuestLvl3075)
+			questLvl = "QuestLvl3075"
+		elseif monster_selected == "DarkBeard [Lv. 3475]" then
+			no_monster = getMonsterCFrame(game.Workspace.AllNPC.QuestLvl3475)
+			questLvl = "QuestLvl3475"
+		elseif monster_selected == "Light [Lv. 3575]" then
+			no_monster = getMonsterCFrame(game.Workspace.AllNPC.QuestLvl3575)
+			questLvl = "QuestLvl3575"
+		elseif monster_selected == "Ice King [Lv. 3350]" then
+			no_monster = getMonsterCFrame(game.Workspace.AllNPC.QuestLvl3350)
+			questLvl = "QuestLvl3350"
+		elseif monster_selected == "The Crimson [Lv. 3375]" then
+			no_monster = getMonsterCFrame(game.Workspace.AllNPC.QuestLvl3375)
+			questLvl = "QuestLvl3375"
+		elseif monster_selected == "King Samurai [Lv. 3500]" then
+			no_monster = getMonsterCFrame(game.Workspace.Island["A - Japan"]["King Samurai Spawn"])
+			questLvl = nil
 		elseif _G.Settings.monster_selected == "SeaKing" then
 			local legacyIsland = nil
 			local hasLegacyIsland = false
@@ -459,50 +442,38 @@ if true then --or checkKey
 				else
 					no_monster = nil
 				end
-			
+
 			end	
 
-		else			------------------------------------Neu ko phai truong hop dac biet ke tren thi Kiem tra so trong ten roi doi chieu voi part tele. 			-- Kiểm tra và gán vị trí no_monster dựa trên tên QuestLvl
-			print("monster ko dac biet")
+		else
+			local teleselectLevel = tonumber(monster_selected:match("%d+"))
+			local questLevelPartName = "QuestLvl" .. (teleselectLevel or "")
+
 			if game.Workspace.AllNPC:FindFirstChild(questLevelPartName) then
-				no_monster = game.Workspace.AllNPC[questLevelPartName].CFrame + Vector3.new(0, 0, 5) -- Vị trí spawn với độ cao +5
-				questLvl =questLevelPartName
+				no_monster = getMonsterCFrame(game.Workspace.AllNPC[questLevelPartName])
+				questLvl = questLevelPartName
 			else
 				no_monster = nil
 				questLvl = nil
 			end
 		end
-
-
 	end
+
+
+
 	print("monster update")
 	-- Cập nhật giá trị của no_monster khi monster_selected thay đổi
 	updateNoMonster()
 
 	--================================================================
-	local H = Y.TextField({
-	Text = "Welcome to Viet Nam",
-	Callback = function(Value)
-		print(Value)
-	end,
-	Menu = {
-		WAIT_UPDATE  = function(self)
-			self.SetText("--IN DEVELOPING WAIT FOR UPDATE--")
-		end,
-		HOP_SERVER  = function(self)
-			self.SetText("HOP SERVER TO FIND BOSS")
-		end,
-		AUTO_FUNCTION = function(self)
-			self.SetText("AUTO BOSS + LEVEL")
-		end
-	}
-})
-local H1 = Y.TextField({
-	Text = "Vui lòng đợi 1800 năm sau để update",
-	Callback = function(Value)
-		print(Value)
-	end
-})
+	w:AddLabel("--IN DEVELOPING WAIT FOR UPDATE--")
+	w:AddLabel("AUTO LEVEL")
+	w:AddLabel("GHOSTSHIP")
+	w:AddLabel("HYDRA")
+	w:AddLabel("SEAKING")
+	w:AddLabel("BIG MOM")
+	w:AddLabel("ODEN")
+	w:AddLabel("HOP SERVER TO FIND BOSS")
 	--[[
 	w:AddToggle({
 		Name = "Auto Farm Level",
@@ -575,95 +546,109 @@ w:AddToggle({
 ]]
 	---------------------------------------------------------------------
 
-			------------=========================test
+	------------=========================test
+	x:AddDropdown(
+		{Name = " ⭕ Choose Monster", Default = _G.Settings.monster_selected, Options = Monster, Callback = function(H)
+			_G.Settings.monster_selected = H
+			saveSettings()
+		end}
+	)
+	x:AddDropdown(
+		{Name = " ⭕ Choose Tele Mode", Default = _G.Settings.Teleselect, Options = Tele, Callback = function(H)
+			_G.Settings.Teleselect = H
+			saveSettings()
+		end}
+	)
+	x:AddDropdown(
+		{
+			Name = " ⭕ Quest or No ?!?",
+			Default = _G.Settings.quest,
+			Options = {"No Quest","Quest"},
+			Callback = function(H)
+				_G.Settings.quest = H
+				saveSettings()
+				if _G.Settings.quest == "Quest" then
+					task.spawn(function()
+						while _G.Settings.TeleON and _G.Settings.quest == "Quest" do
+					
+							if no_monster ~= nil and not game.Players.LocalPlayer.PlayerGui.Quest.QuestBoard.Visible then
+								-- Lấy tên đầy đủ của QuestLvlxxxx từ no_monster
+								print("Nhan questLvl "..questLvl)
+								if questLvl ~= nil then
+									-- Lấy đối tượng QuestLvlxxxx từ workspace.AllNPC
+									local questNPC = workspace.AllNPC:FindFirstChild(questLvl)
+									--print("questLvl "..questLvl)
+									-- Gọi nhiệm vụ
+									local args = {
+										[1] = questNPC
+									}
+									game:GetService("ReplicatedStorage").Remotes.Functions:WaitForChild("CheckQuest"):InvokeServer(unpack(args))
 
-local MonsterChosen = Z.Dropdown({
-    Text = "⭕ Choose Monster",
-    Default = _G.Settings.monster_selected,
-    Options = Monster,
-    Callback = function(Value)
-        _G.Settings.monster_selected = Value
-        saveSettings()
-    end
-})
+									-- Bấm Accept-------------------------
+									-- Lấy Gui
+									while true do
+										-- Kiểm tra sự tồn tại của acceptButton
+										local acceptButtonExists, acceptButton = pcall(function()
+											return game.Players.LocalPlayer.PlayerGui[questLvl].Dialogue.Accept
+										end)
 
+										if acceptButtonExists then
+											-- Truy cập acceptButton thành công
+											wait(1)
+											local function clickImageButton(button)
+												local position = button.AbsolutePosition
+												local size = button.AbsoluteSize
 
-	local TeleModeChosen= Z.Dropdown({
-    Text = "⭕ Choose Tele Mode",
-    Options = Tele,
-    Callback = function(Value)
-        _G.Settings.Teleselect = Value
-        saveSettings()
-    end,
-    Menu = {
-        Information = function(self)
-            X.Banner({
-                Text = "Test alert!"
-            })
-        end
-    }
-})
+												-- Calculate the click position relative to the acceptButton
+												local clickX = position.X + size.X/2
+												local clickY = position.Y + size.Y/2
 
-	local Quest = Z.Dropdown({
-    Text = "⭕ Quest or No ?!?",
-    Default = _G.Settings.quest,
-    Options = {"No Quest", "Quest"},
-    Callback = function(Value)
-        _G.Settings.quest = Value
-        print("Nhan quest BAT TAT")
-        print("questLvl " .. questLvl)
-        print(no_monster)
-        saveSettings()
-        if _G.Settings.quest == "Quest" then
-            task.spawn(function()
-                while _G.Settings.TeleON and _G.Settings.quest == "Quest" do
-                    print("Nhan quest")
-                    if no_monster ~= nil and true then
-                        print("questLvl " .. questLvl)
-                        if questLvl ~= nil then
-                            local questNPC = workspace.AllNPC:FindFirstChild(questLvl)
-                            print("questLvl " .. questLvl)
-                            local args = {
-                                [1] = questNPC
-                            }
-                            game:GetService("ReplicatedStorage").Remotes.Functions:WaitForChild("CheckQuest"):InvokeServer(unpack(args))
-                            local acceptButtonExists, acceptButton = pcall(function()
-                                return game.Players.LocalPlayer.PlayerGui[questLvl].Dialogue.Accept
-                            end)
+												-- Create an ImageLabel to cover the real mouse cursor
+												local mouseCover = Instance.new("ImageLabel")
+												mouseCover.BackgroundTransparency = 0.5
+												mouseCover.Size = UDim2.new(0, 1, 0, 1)
+												mouseCover.Image = "rbxassetid://12915051392" -- Replace with a transparent image asset ID
+												mouseCover.Position = UDim2.new(0, clickX, 0, clickY)
+												mouseCover.Parent = game.Players.LocalPlayer.PlayerGui
+												-- Move the mouse cursor to the click position
+												mousemoveabs(clickX, clickY)
+												-- Simulate left mouse button click
+												--mouse1press()
+												wait(0.001)
+												mousemoveabs(clickX, clickY)
+												wait(0.001)
+												--mouse1release()
+												mouse1click()
+											-- Clean up
+												mouseCover:Destroy()
+												
+											end
 
-                            if acceptButtonExists then
-                                wait(1)
-                                local function clickImageButton(button)
-                                    local position = button.AbsolutePosition
-                                    local size = button.AbsoluteSize
-                                    local clickX = position.X + size.X/2
-                                    local clickY = position.Y + size.Y/2
-                                    mousemoveabs(clickX, clickY)
-                                    mouse1click()
-                                    print("Clicked nut Accept")
-                                end
+											clickImageButton(acceptButton)
+											wait(0.3)
+											clickImageButton(acceptButton)
+											wait()
+											-- OK CODE
+										else
+											break -- Thoát khỏi vòng lặp nếu không tìm thấy nút Accept
+										end
+									end
+								else
+									wait(3)
+								end
+							end
+							wait()
+						end -- end while
 
-                                clickImageButton(acceptButton)
-                                wait(0.5)
-                                clickImageButton(acceptButton)
-                                wait(5)
-                            else
-                                acceptButton = nil
-                            end
-                        else
-                            wait(3)
-                        end
-                    end
-                    wait()
-                end
-            end)
-        end
-    end
-})
+					end)
+				end
+			end
+		}
+	)
 
 
 	--=============================================================================================--=============================================================================================
-	
+
 	local function teleportIfNoMonster()
 		if no_monster ~= nil then
 			teleportToTarget(no_monster)
@@ -672,198 +657,218 @@ local MonsterChosen = Z.Dropdown({
 	local monsterSelected
 	local teleRunning = false -- Biến flag để kiểm tra trạng thái của vòng lặp TeleON
 	print("tạo nút Farm selected")
-	
-	local FarmSelected  = Z.Toggle({
-    Text = "Farm Selected",
-    Callback = function(Value)
-        _G.Settings.TeleON = Value
-        print("BAT/Tat Farm selected")
-        saveSettings()
 
-        if _G.Settings.TeleON then
-            print("TeleON")
-            task.spawn(function()
-                while _G.Settings.TeleON do
-                    teleRunning = true
-                    print("teleRunning")
+	x:AddToggle({
+		Name = "Farm Selected",
+		Default = _G.Settings.TeleON,
+		Callback = function(H)
+			_G.Settings.TeleON = H
+			print("BAT/Tat Farm selected")
+			saveSettings()
 
-                    if _G.Settings.Teleselect == Tele[1] then
-                        print("Teleselect = Tele[1]")
-                        pcall(function()
-                            repeat
-                                local monsters = filterMonstersByName(_G.Settings.monster_selected)
-                                _G.Settings.target = false
-                                
-                                if #monsters <= 0 then
-                                    teleportIfNoMonster()
-                                    _G.Settings.target = false
-                                    saveSettings()
-                                    
-                                    if _G.Settings.monster_selected ~= monsterSelected then
-                                        monsterSelected = _G.Settings.monster_selected
-                                        updateNoMonster()
-                                        teleportIfNoMonster()
-                                    end
-                                    wait(3)
-                                else
-                                    local targetMonster = monsters[1]
-                                    local targetPosition = targetMonster.HumanoidRootPart.CFrame - targetMonster.HumanoidRootPart.CFrame.lookVector * 5
-                                    teleportToTarget(targetPosition)
+			if _G.Settings.TeleON then
+				print("TeleON")
+				task.spawn(function()
+					while _G.Settings.TeleON do
+						teleRunning = true
+						print("teleRunning")
 
-                                    _G.Settings.target = true
+						if _G.Settings.Teleselect == Tele[1] then
+							print("Teleselect = Tele[1]")
+							pcall(function()
+								repeat
+									--print("Repeat  ")
+									local monsters = filterMonstersByName(_G.Settings.monster_selected)
+									--print(monsters)
+									_G.Settings.target = false
+									--print("Ko đánh....1 ")
+									--saveSettings()
 
-                                    wait(0.01)
-                                end
-                            until not _G.Settings.TeleON or _G.Settings.Teleselect ~= Tele[1]
+									if #monsters <= 0 then
+										teleportIfNoMonster()
+										_G.Settings.target = false
+										--print("Ko đánh....do ko co muc tieu ")
+										saveSettings()
 
-                            teleRunning = false
-                        end)
+										if _G.Settings.monster_selected ~= monsterSelected then
+											monsterSelected = _G.Settings.monster_selected
+											updateNoMonster()
+											teleportIfNoMonster()
 
-                    elseif _G.Settings.Teleselect == Tele[2] then
-                        local function lieDown(target)
-                            local targetPosition = target.HumanoidRootPart.CFrame.Position
-                            local playerPosition = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Position
-                            local offset = targetPosition - playerPosition
-                            local newPosition = playerPosition + offset
-                            local newCFrame = CFrame.new(newPosition)
-                            newCFrame = newCFrame - newCFrame.LookVector * 10
-                            newCFrame = newCFrame * CFrame.Angles(0, math.rad(90), 0)
-                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = newCFrame
+										end
+										wait(3)
+									else
+										--print("so luong monsters >0 tele and ...." )
+										local targetMonster = monsters[1]
+										local targetPosition = targetMonster.HumanoidRootPart.CFrame - targetMonster.HumanoidRootPart.CFrame.lookVector * 5
+										teleportToTarget(targetPosition)
 
-                            local function checkDistance()
-                                local distance = (targetPosition - playerPosition).Magnitude
-                                return distance < 20
-                            end
+										-- Save monster if attacked
+										_G.Settings.target = true
+										--print("ATTACKKKKKKKKKKKKKKKKKKKKKK")
+										--saveSettings()
 
-                            while checkDistance() do
-                                wait(0.1)
-                            end
 
-                            local function onMonsterDeath()
-                                changeTarget()
-                            end
+										wait(0.01)
+									end
+								until not _G.Settings.TeleON or _G.Settings.Teleselect ~= Tele[1]
 
-                            target.Died:Connect(onMonsterDeath)
-                        end
+								teleRunning = false
+							end)
 
-                        pcall(function()
-                            repeat
-                                local monsters = filterMonstersByName(_G.Settings.monster_selected)
+						elseif _G.Settings.Teleselect == Tele[2] then -- ONTOP
+							-- Xử lý Tele 2
+							local function lieDown(target)
+								local targetPosition = target.HumanoidRootPart.CFrame.Position
+								local playerPosition = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Position
+								local offset = targetPosition - playerPosition
+								local newPosition = playerPosition + offset
+								local newCFrame = CFrame.new(newPosition)
+								newCFrame.Y = newCFrame.Y - 10
+								newCFrame.Z = newCFrame.Z + 10
+								newCFrame.Yaw = newCFrame.Yaw + 90
+								game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = newCFrame
 
-                                _G.Settings.target = false
+								local function checkDistance()
+									local distance = (targetPosition - playerPosition).Magnitude
+									return distance < 20
+								end
 
-                                if #monsters <= 0 then
-                                    teleportIfNoMonster()
-                                    _G.Settings.target = false
+								while checkDistance() do
+									wait(0.1)
+								end
 
-                                    if _G.Settings.monster_selected ~= monsterSelected then
-                                        monsterSelected = _G.Settings.monster_selected
-                                        updateNoMonster()
-                                        teleportIfNoMonster()
-                                    end
-                                    wait(3)
-                                else
-                                    local targetMonster = monsters[1]
-                                    local targetPosition = targetMonster.HumanoidRootPart.CFrame - targetMonster.HumanoidRootPart.CFrame.lookVector * 5
-                                    teleportToTarget(targetPosition)
+								local function onMonsterDeath()
+									changeTarget()
+								end
 
-                                    _G.Settings.target = true
+								target.Died:Connect(onMonsterDeath)
+							end
 
-                                    lieDown(targetMonster)
+							pcall(function()
+								repeat
+									local monsters = filterMonstersByName(_G.Settings.monster_selected)
 
-                                    wait(0.01)
-                                end
-                            until not _G.Settings.TeleON or _G.Settings.Teleselect ~= Tele[2]
+									_G.Settings.target = false
+									--print("Ko đánh....1 ")
 
-                            teleRunning = false
-                        end)
-                    elseif _G.Settings.Teleselect == Tele[3] then
-                        -- Xử lý Tele 3
-                    end
-                    wait(0.01)
-                end
+									if #monsters <= 0 then
+										teleportIfNoMonster()
+										_G.Settings.target = false
+										--print("Ko đánh....do ko co muc tieu ")
 
-                teleRunning = false
-            end)
-        else
-            teleRunning = false
-        end
-    end,
-    Enabled = _G.Settings.TeleON
-})
+										if _G.Settings.monster_selected ~= monsterSelected then
+											monsterSelected = _G.Settings.monster_selected
+											updateNoMonster()
+											teleportIfNoMonster()
+										end
+										wait(3)
+									else
+										local targetMonster = monsters[1]
+										local targetPosition = targetMonster.HumanoidRootPart.CFrame - targetMonster.HumanoidRootPart.CFrame.lookVector * 5
+										teleportToTarget(targetPosition)
 
-	
---	y:AddLabel("Skill")
-	local ToggleNormalAttack = A.Toggle({
-    Text = "Normal Attack (click)",
-    Callback = function(Value)
-        _G.Settings.NormalAttack = Value
-        saveSettings()
+										-- Save monster if attacked
+										_G.Settings.target = true
+										--print("ATTACKKKKKKKKKKKKKKKKKKKKKK")
 
-        if _G.Settings.NormalAttack then
-            task.spawn(function()
-                local LocalPlayer = game.Players.LocalPlayer
-                local swordName = LocalPlayer.PlayerStats.SwordName.Value
-                local meleeName = LocalPlayer.PlayerStats.FightingStyle.Value
-                local devilFName = LocalPlayer.PlayerStats.DFName.Value
+										lieDown(targetMonster)
 
-                local swName = "SW_" .. swordName .. "_M1"
-                local fsName = "FS_" .. meleeName .. "_M1"
-                local dfName = "DF_" .. devilFName .. "_M1"
-                local character = LocalPlayer.Character
-                local humanoidRootPart = character and character:FindFirstChild("HumanoidRootPart")
+										wait(0.01)
+									end
+								until not _G.Settings.TeleON or _G.Settings.Teleselect ~= Tele[2]
 
-                while _G.Settings.NormalAttack do
-                    if _G.Settings.target and humanoidRootPart then
-                        local targetCFrame = humanoidRootPart.CFrame * CFrame.new(0, 0, -10)
-                        --sw
-                        local args = {
-                            [1] = swName,
-                            [2] = {
-                                ["MouseHit"] = targetCFrame,
-                                ["Type"] = "Down"
-                            },
-                        }
+								teleRunning = false
+							end)
+
+
+						elseif _G.Settings.Teleselect == Tele[3] then
+							-- Xử lý Tele 3
+						end
 						wait(0.01)
-                        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Functions"):WaitForChild("SkillAction"):InvokeServer(unpack(args))
-                        if _G.Settings.super_Attack then 
-                            --melee
-                            local args = {
-                                [1] = fsName
-                            }
-wait(0.01)
-                            game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Functions"):WaitForChild("SkillAction"):InvokeServer(unpack(args))
-                            --df
-                            local args = {
-                                [1] = dfName,
-                                [2] = {
-                                    ["MouseHit"] = targetCFrame,
-                                    ["Type"] = "Down"
-                                },
-                            }
-wait(0.01)
-                            game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Functions"):WaitForChild("SkillAction"):InvokeServer(unpack(args))
-                        end
-                    end
-                    wait(0.01) -- Đợi một khoảng thời gian trước khi gọi lại hàm
-                end
-            end)
-        else
-            --do nothing
-        end
-    end,
-    Enabled = _G.Settings.NormalAttack
-})
+					end
 
-local ToggleExtraPunch = A.Toggle({
-    Text = "Extra 3 in 1 Punch",
-    Callback = function(Value)
-        _G.Settings.super_Attack = Value
-        saveSettings()
-    end,
-    Enabled = _G.Settings.super_Attack
-})
+					teleRunning = false
+				end)
+			else
+				teleRunning = false
+			end
+		end
+	})
 
+
+	y:AddLabel("Skill")
+	y:AddToggle({
+		Name = "Normal Attack (click)",
+		Default = _G.Settings.NormalAttack,
+		Callback = function(H)
+			_G.Settings.NormalAttack = H
+			saveSettings()
+
+			if _G.Settings.NormalAttack then
+				task.spawn(function()
+					local LocalPlayer = game.Players.LocalPlayer
+					local swordName = LocalPlayer.PlayerStats.SwordName.Value
+					local meleeName = LocalPlayer.PlayerStats.FightingStyle.Value
+					local devilFName = LocalPlayer.PlayerStats.DFName.Value
+
+					local swName = "SW_" .. swordName .. "_M1"
+					local fsName = "FS_" .. meleeName .. "_M1"
+					local dfName = "DF_" .. devilFName .. "_M1"
+					local character = LocalPlayer.Character
+					local humanoidRootPart = character and character:FindFirstChild("HumanoidRootPart")
+
+					while _G.Settings.NormalAttack do
+						if _G.Settings.target and humanoidRootPart then
+							local targetCFrame = humanoidRootPart.CFrame * CFrame.new(0, 0, -10)
+							--sw
+							local args = {
+								[1] = swName,
+								[2] = {
+									["MouseHit"] = targetCFrame,
+									["Type"] = "Down"
+								},
+							}
+
+							game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Functions"):WaitForChild("SkillAction"):InvokeServer(unpack(args))
+							if _G.Settings.super_Attack then 
+								--melee
+								local args = {
+									[1] = fsName
+								}
+
+								game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Functions"):WaitForChild("SkillAction"):InvokeServer(unpack(args))
+								--df
+								local args = {
+									[1] = dfName,
+									[2] = {
+										["MouseHit"] = targetCFrame,
+										["Type"] = "Down"
+									},
+								}
+
+								game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Functions"):WaitForChild("SkillAction"):InvokeServer(unpack(args))
+							end
+						end
+						wait() -- Đợi một khoảng thời gian trước khi gọi lại hàm
+					end
+				end)
+			else
+				--do nothing
+			end
+		end
+
+	})
+
+
+	y:AddToggle({
+		Name = "Extra 3 in 1 Punch",
+		Default = _G.Settings.super_Attack,
+		Callback = function(H)
+			_G.Settings.super_Attack = H
+			saveSettings()
+		end
+	})
 
 
 	local function sendSkillRequest(args)
@@ -925,209 +930,156 @@ local ToggleExtraPunch = A.Toggle({
 
 		sendSkillRequest(args)
 	end
-	--y:AddLabel("SWORD - SKILL")
+	y:AddLabel("SWORD - SKILL")
 	local function createSwordSkillToggle(skillKey)
-    local ToggleSwordSkill = A.Toggle({
-        Text = "Sword Skill " .. skillKey,
-        Callback = function(Value)
-            _G.Settings["SW" .. skillKey .. "Skill"] = Value
-            saveSettings()
-            if Value then
-                task.spawn(function()
-                    while _G.Settings["SW" .. skillKey .. "Skill"] do
-                        if _G.Settings.target then
-                            task.spawn(function()
-                                sendSkillDown("SW", skillKey)
-                                task.wait(0.1)
-                                sendSkillUp("SW", skillKey)
-                                task.wait(0.1)
-                            end)
-                        end
-                        task.wait(math.random(0.5, 3))
-                    end
-                end)
-            end
-        end,
-        Enabled = _G.Settings["SW" .. skillKey .. "Skill"]
-    })
-end
+		y:AddToggle({
+			Name = "Sword Skill " .. skillKey,
+			Default = _G.Settings["SW" .. skillKey .. "Skill"],
+			Callback = function(H)
+				_G.Settings["SW" .. skillKey .. "Skill"] = H
+				saveSettings()
+				if H then
+					task.spawn(function()
+						while _G.Settings["SW" .. skillKey .. "Skill"] do
+							if _G.Settings.target then
+								task.spawn(function()
+									sendSkillDown("SW", skillKey)
+									task.wait(0.1)
+									sendSkillUp("SW", skillKey)
+									task.wait(0.1)
+								end)
+							end
+							task.wait(math.random(0.5, 3))
+						end
+					end)
+				end
+			end
+		})
+	end
 
-local function createMeleeSkillToggle(skillKey)
-    local ToggleMeleeSkill = A.Toggle({
-        Text = "Melee Skill " .. skillKey,
-        Callback = function(Value)
-            _G.Settings["FS" .. skillKey .. "Skill"] = Value
-            saveSettings()
-            if Value then
-                task.spawn(function()
-                    while _G.Settings["FS" .. skillKey .. "Skill"] do
-                        if _G.Settings.target then
-                            task.spawn(function()
-                                sendSkillDown("FS", skillKey)
-                                task.wait(0.1)
-                                sendSkillUp("FS", skillKey)
-                                task.wait(0.1)
-                            end)
-                        end
-                        task.wait(math.random(0.5, 3))
-                    end
-                end)
-            end
-        end,
-        Enabled = _G.Settings["FS" .. skillKey .. "Skill"]
-    })
-end
+	local function createMeleeSkillToggle(skillKey)
+		y:AddToggle({
+			Name = "Melee Skill " .. skillKey,
+			Default = _G.Settings["FS" .. skillKey .. "Skill"],
+			Callback = function(H)
+				_G.Settings["FS" .. skillKey .. "Skill"] = H
+				saveSettings()
+				if H then
+					task.spawn(function()
+						while _G.Settings["FS" .. skillKey .. "Skill"] do
+							if _G.Settings.target then
+								task.spawn(function()
+									sendSkillDown("FS", skillKey)
+									task.wait(0.1)
+									sendSkillUp("FS", skillKey)
+									task.wait(0.1)
+								end)
+							end
+							task.wait(math.random(0.5, 3))
+						end
+					end)
+				end
+			end
+		})
+	end
 
-local function createDevilFruitSkillToggle(skillKey)
-    local ToggleDevilFruitSkill = A.Toggle({
-        Text = "DF Skill " .. skillKey,
-        Callback = function(Value)
-            _G.Settings["DF" .. skillKey .. "Skill"] = Value
-            saveSettings()
-            if Value then
-                task.spawn(function()
-                    while _G.Settings["DF" .. skillKey .. "Skill"] do
-                        if _G.Settings.target then
-                            task.spawn(function()
-                                sendSkillDown("DF", skillKey)
-                                task.wait(0.1)
-                                sendSkillUp("DF", skillKey)
-                                task.wait(0.1)
-                            end)
-                        end
-                        task.wait(math.random(0.5, 3))
-                    end
-                end)
-            end
-        end,
-        Enabled = _G.Settings["DF" .. skillKey .. "Skill"]
-    })
-end
+	local function createDevilFruitSkillToggle(skillKey)
+		y:AddToggle({
+			Name = "DF Skill " .. skillKey,
+			Default = _G.Settings["DF" .. skillKey .. "Skill"],
+			Callback = function(H)
+				_G.Settings["DF" .. skillKey .. "Skill"] = H
+				saveSettings()
+				if H then
+					task.spawn(function()
+						while _G.Settings["DF" .. skillKey .. "Skill"] do
+							if _G.Settings.target then
+								task.spawn(function()
+									sendSkillDown("DF", skillKey)
+									task.wait(0.1)
+									sendSkillUp("DF", skillKey)
+									task.wait(0.1)
+								end)
+							end
+							task.wait(math.random(0.5, 3))
+						end
+					end)
+				end
+			end
+		})
+	end
 
--- Gọi các hàm tạo skill toggle cho từng kỹ năng
-createSwordSkillToggle("Z")
-createSwordSkillToggle("X")
-createMeleeSkillToggle("Z")
-createMeleeSkillToggle("X")
-createMeleeSkillToggle("C")
-createMeleeSkillToggle("V")
-createDevilFruitSkillToggle("Z")
-createDevilFruitSkillToggle("X")
-createDevilFruitSkillToggle("C")
-createDevilFruitSkillToggle("V")
-createDevilFruitSkillToggle("B")
-createDevilFruitSkillToggle("E")
-
+	-- Gọi các hàm tạo skill toggle cho từng kỹ năng
+	createSwordSkillToggle("Z")
+	createSwordSkillToggle("X")
+	y:AddLabel("-----------Fighting Style-----------")
+	createMeleeSkillToggle("Z")
+	createMeleeSkillToggle("X")
+	createMeleeSkillToggle("C")
+	createMeleeSkillToggle("V")
+	y:AddLabel("-----DEVIL FRUIT------")
+	createDevilFruitSkillToggle("Z")
+	createDevilFruitSkillToggle("X")
+	createDevilFruitSkillToggle("C")
+	createDevilFruitSkillToggle("V")
+	createDevilFruitSkillToggle("B")
+	createDevilFruitSkillToggle("E")
 
 
 	---------------------------Equip On
-local AutoHakiToggle = B.Toggle({
-    Text = "Auto HAKI",
-    Callback = function(Value)
-        _G.Settings.Haki = Value
-        saveSettings()
+	z:AddToggle({
+		Name = "Auto HAKI",
+		Default = _G.Settings.Haki,
+		Callback = function(H)
+			_G.Settings.Haki = H
+			saveSettings()
 
-        task.spawn(function()
-            while _G.Settings.Haki do
-                task.wait(4)
-                local playerName = game:GetService("Players").LocalPlayer.Name
-                local hakiValue = Workspace.PlayerCharacters[playerName].Haki.Value
-                if hakiValue == 0 then
-                    game:GetService("Players").LocalPlayer.Character.Services.Client.Armament:FireServer()
-                end
-            end
+			task.spawn(function()
+				while _G.Settings.Haki do
+					task.wait(4)
+					local playerName = game:GetService("Players").LocalPlayer.Name
+					local hakiValue = Workspace.PlayerCharacters:WaitForChild(playerName).Haki.Value
+					if hakiValue == 0 then
+						game:GetService("Players").LocalPlayer.Character.Services.Client.Armament:FireServer()
+					end
+				end
 
-            local playerName = game:GetService("Players").LocalPlayer.Name
-            local hakiValue = Workspace.PlayerCharacters[playerName].Haki.Value
+				local playerName = game:GetService("Players").LocalPlayer.Name
+				local hakiValue = Workspace.PlayerCharacters:WaitForChild(playerName).Haki.Value
 
-            if hakiValue == 1 and not _G.Settings.Haki then
-                game:GetService("Players").LocalPlayer.Character.Services.Client.Armament:FireServer()
-            end
-        end)
-    end,
-    Enabled = _G.Settings.Haki
-})
-
-
-
-local AutoKenToggle = B.Toggle({
-    Text = "Auto Ken",
-    Callback = function(Value)
-        _G.Settings.Ken = Value
-        saveSettings()
-
-        task.spawn(function()
-            while _G.Settings.Ken do
-                task.wait(2)
-                local playerName = game:GetService("Players").LocalPlayer.Name
-                local player = game:GetService("Players").LocalPlayer
-                if player.Character then
-                    local kenHakiValue = Workspace.PlayerCharacters[playerName].KenHaki.Value
-                    local kenOpenValue = Workspace.PlayerCharacters[playerName].KenOpen.Value
-
-                    if kenHakiValue >= 7 and not kenOpenValue then
-                        game:GetService("Players").LocalPlayer.Character.Services.Client.KenEvent:InvokeServer()
-                        print("DA Bat Ken ")
-                    end
-                end
-            end
-        end)
-    end,
-    Enabled = _G.Settings.Ken
-})
+				if hakiValue == 1 and _G.Settings.Haki == false then
+					game:GetService("Players").LocalPlayer.Character.Services.Client.Armament:FireServer()
+				end
+			end)
+		end
+	})
 
 
+	z:AddToggle({
+		Name = "Auto Ken",
+		Default = _G.Settings.Ken,
+		Callback = function(H)
+			_G.Settings.Ken = H
+			saveSettings()
 
-----------======================
-local player = game:GetService("Players").LocalPlayer
-local toggleEnabled = false
-local threadRunning = false
+			task.spawn(function()
+				while _G.Settings.Ken do
+					task.wait(2)
+					local playerName = game:GetService("Players").LocalPlayer.Name
+					local player = game:GetService("Players").LocalPlayer
+					if player.Character then
+						local kenHakiValue = Workspace.PlayerCharacters:WaitForChild(playerName).KenHaki.Value
+						local kenOpenValue = Workspace.PlayerCharacters:WaitForChild(playerName).KenOpen.Value
 
-local function onFolderAdded(folder)
-    if toggleEnabled then
-        if folder.Name == "Stun" or folder.Name == "Doing" then
-            folder:Destroy()
-        end
-    end
-end
-
-local toggle = B.Toggle({
-    Text = "Remove Some Effects",
-    Callback = function(enabled)
-        toggleEnabled = enabled
-        
-        if toggleEnabled and not threadRunning then
-            threadRunning = true
-            
-            spawn(function()
-                while toggleEnabled do
-                    wait(0.1)  -- Chạy kiểm tra mỗi 0.1 giây (100ms)
-                    
-                    local folders = player.Character:GetChildren()
-                    for _, folder in ipairs(folders) do
-                        onFolderAdded(folder)
-                    end
-                end
-                
-                threadRunning = false
-            end)
-        end
-    end,
-    Enabled = toggleEnabled
-})
-
-local function connectToCharacter(character)
-    character.ChildAdded:Connect(onFolderAdded)
-end
-
-if player.Character then
-    connectToCharacter(player.Character)
-end
-
-player.CharacterAdded:Connect(function(character)
-    connectToCharacter(character)
-end)
-
+						if kenHakiValue >= 7 and not kenOpenValue then
+							game:GetService("Players").LocalPlayer.Character.Services.Client.KenEvent:InvokeServer()
+							print("DA Bat Ken ")
+						end
+					end
+				end
+			end)
+		end
+	})
 
 
 --[[	z:AddDropdown({
@@ -1157,12 +1109,8 @@ end)
 
 ]]
 
-	
-
-
-
-	--[[local toggle = C.Button({
-		Text = "Change Sea 1<=>2",
+	A:AddButton({
+		Name = "Change Sea 1<=>2",
 		Icon = "click",
 		Callback = function()
 			--setclipboard(linkDONATE) --linkverse earning 
@@ -1172,13 +1120,13 @@ end)
 			}
 
 			game.ReplicatedStorage.Remotes.Functions.CheckQuest:InvokeServer(unpack(args))
-				print("Create GUI ")
+			print("Create GUI ")
 
 		end
 
 	}) 
-	
 
-	--end o day-------------------]]
+
+	--end o day-------------------
 end
 
