@@ -256,7 +256,7 @@ HydraSKChecking.MouseButton1Click:Connect(function()
     local targetPart = nil
     local islandModels = game.Workspace.Island:GetChildren()
     for _, model in ipairs(islandModels) do
-        if model:IsA("Model") and model.Name ~= "Mirror Room" and model.Name ~= "G - Skull Pirate Island" and model.Name ~= "F - Soldier Head Quater" and model.Name ~= "E - Shred Endangering" and model.Name ~= "D - Loaf Island" and model.Name ~= "C - Desert" and model.Name ~= "B - Skull Island" and model.Name ~= "A - Japan" and model.Name ~= "H - Fiore" then
+        if model:IsA("Model") and model.Name ~= "Board" and model.Name ~= "Mirror Room" and model.Name ~= "G - Skull Pirate Island" and model.Name ~= "F - Soldier Head Quater" and model.Name ~= "E - Shred Endangering" and model.Name ~= "D - Loaf Island" and model.Name ~= "C - Desert" and model.Name ~= "B - Skull Island" and model.Name ~= "A - Japan" and model.Name ~= "H - Fiore" then
             targetPart = model:FindFirstChildWhichIsA("BasePart")
             break
         end
@@ -305,7 +305,7 @@ local function checkAllBosses()
     local targetPart = nil
     local islandModels = game.Workspace.Island:GetChildren()
     for _, model in ipairs(islandModels) do
-        if model:IsA("Model") and model.Name ~= "Mirror Room" and model.Name ~= "G - Skull Pirate Island" and model.Name ~= "F - Soldier Head Quater" and model.Name ~= "E - Shred Endangering" and model.Name ~= "D - Loaf Island" and model.Name ~= "C - Desert" and model.Name ~= "B - Skull Island" and model.Name ~= "A - Japan" and model.Name ~= "H - Fiore" then
+        if model:IsA("Model") and model.Name ~= "Mirror Room" and model.Name ~= "Board" and model.Name ~= "G - Skull Pirate Island" and model.Name ~= "F - Soldier Head Quater" and model.Name ~= "E - Shred Endangering" and model.Name ~= "D - Loaf Island" and model.Name ~= "C - Desert" and model.Name ~= "B - Skull Island" and model.Name ~= "A - Japan" and model.Name ~= "H - Fiore" then
             targetPart = model:FindFirstChildWhichIsA("BasePart")
             break
         end
@@ -316,10 +316,15 @@ local function checkAllBosses()
         HydraSKChecking.Text = "Hydra Sea King Status: YES"
     end
      -- Kiểm tra và cập nhật trạng thái cho Ghost Ship
-    local gsTargetPart = game.Workspace.GhostMonster.GhostShip:FindFirstChild("HumanoidRootPart")
+    -- Kiểm tra và cập nhật trạng thái cho Ghost Ship
+local ghostMonster = game.Workspace.GhostMonster
+if ghostMonster and ghostMonster:FindFirstChild("GhostShip") then
+    local gsTargetPart = ghostMonster.GhostShip:FindFirstChild("HumanoidRootPart")
     if gsTargetPart then
         gsChecking.Text = "GhostShip Status: YES"
     end
+end
+
     
     isBossChecked = true -- Đã kiểm tra xong
 end
