@@ -202,14 +202,20 @@ gsChecking.TextColor3 = Color3.fromRGB(0, 0, 0)
 gsChecking.TextSize = 14.000
 gsChecking.TextStrokeTransparency = 0.900
 gsChecking.MouseButton1Click:Connect(function()
-    local targetPart = game.Workspace.GhostMonster.GhostShip:FindFirstChild("HumanoidRootPart")
-    if targetPart then
-        game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(targetPart.Position))
-        gsChecking.Text = "GhostShip Status: YES"
+    local ghostMonster = game.Workspace.GhostMonster:FindFirstChild("Ghost Ship")
+    if ghostMonster then
+        local targetPart = ghostMonster:FindFirstChild("HumanoidRootPart")
+        if targetPart then
+            game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(targetPart.Position))
+            gsChecking.Text = "GhostShip Status: YES"
+        else
+            gsChecking.Text = "GhostShip Status: NO"
+        end
     else
         gsChecking.Text = "GhostShip Status: NO"
     end
 end)
+
 
 
 
@@ -318,12 +324,13 @@ local function checkAllBosses()
      -- Kiểm tra và cập nhật trạng thái cho Ghost Ship
     -- Kiểm tra và cập nhật trạng thái cho Ghost Ship
 local ghostMonster = game.Workspace.GhostMonster
-if ghostMonster and ghostMonster:FindFirstChild("GhostShip") then
-    local gsTargetPart = ghostMonster.GhostShip:FindFirstChild("HumanoidRootPart")
+if ghostMonster and ghostMonster:FindFirstChild("Ghost Ship") then
+    local gsTargetPart = ghostMonster["Ghost Ship"]:FindFirstChild("HumanoidRootPart")
     if gsTargetPart then
         gsChecking.Text = "GhostShip Status: YES"
     end
 end
+
 
     
     isBossChecked = true -- Đã kiểm tra xong
