@@ -175,33 +175,40 @@ inputCode.TextColor3 = Color3.fromRGB(0, 0, 0)
 inputCode.TextSize = 14.000
 inputCode.TextStrokeTransparency = 0.900
 inputCode.MouseButton1Click:Connect(function()
-		local targetPlayers = 10
-			local placeId = game.PlaceId
-			local Servers = game.HttpService:JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/"..placeId.."/servers/Public?sortOrder=Asc&limit=100"))
-			
-			local targetServerId
-			local closestPlayerCountDiff = math.huge
-			
-			for i, server in ipairs(Servers.data) do
-			    if server.playing == targetPlayers then
-			        targetServerId = server.id
-			        break
-			    else
-			        local playerCountDiff = math.abs(server.playing - targetPlayers)
-			        if playerCountDiff < closestPlayerCountDiff then
-			            closestPlayerCountDiff = playerCountDiff
-			            targetServerId = server.id
-			        end
-			    end
-			end
-			
-			if targetServerId then
-			    game:GetService("TeleportService"):TeleportToPlaceInstance(placeId, targetServerId)
-			else
-			    print("Không tìm thấy server phù hợp.")
-			end
+    local targetPlayers = 10
+    local placeId = game.PlaceId
 
+    local success, Servers = pcall(function()
+        return game.HttpService:JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/"..placeId.."/servers/Public?sortOrder=Asc&limit=100"))
+    end)
+
+    if success then
+        local targetServerId
+        local closestPlayerCountDiff = math.huge
+        
+        for i, server in ipairs(Servers.data) do
+            if server.playing == targetPlayers then
+                targetServerId = server.id
+                break
+            else
+                local playerCountDiff = math.abs(server.playing - targetPlayers)
+                if playerCountDiff < closestPlayerCountDiff then
+                    closestPlayerCountDiff = playerCountDiff
+                    targetServerId = server.id
+                end
+            end
+        end
+        
+        if targetServerId then
+            game:GetService("TeleportService"):TeleportToPlaceInstance(placeId, targetServerId)
+        else
+            print("Không tìm thấy server phù hợp.")
+        end
+    else
+        print("Lỗi khi truy cập danh sách máy chủ.")
+    end
 end)
+
 
 checkAll_2.Name = "checkAll"
 checkAll_2.Parent = Main
