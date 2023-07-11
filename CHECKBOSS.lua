@@ -175,7 +175,33 @@ inputCode.TextColor3 = Color3.fromRGB(0, 0, 0)
 inputCode.TextSize = 14.000
 inputCode.TextStrokeTransparency = 0.900
 inputCode.MouseButton1Click:Connect(function()
-changeServer()
+		local targetPlayers = 10 -- Số người chơi mục tiêu
+
+			local placeId = game.PlaceId
+			local Servers = game.HttpService:JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/"..placeId.."/servers/Public?sortOrder=Asc&limit=100"))
+			
+			local targetServerId
+			local closestPlayerCountDiff = math.huge
+			
+			for i, server in ipairs(Servers.data) do
+			    if server.playing == targetPlayers then
+			        targetServerId = server.id
+			        break
+			    else
+			        local playerCountDiff = math.abs(server.playing - targetPlayers)
+			        if playerCountDiff < closestPlayerCountDiff then
+			            closestPlayerCountDiff = playerCountDiff
+			            targetServerId = server.id
+			        end
+			    end
+			end
+			
+			if targetServerId then
+			    game:GetService("TeleportService"):TeleportToPlaceInstance(placeId, targetServerId)
+			else
+			    print("Không tìm thấy server phù hợp.")
+			end
+
 end)
 
 checkAll_2.Name = "checkAll"
@@ -203,7 +229,7 @@ gsChecking.TextSize = 14.000
 gsChecking.TextStrokeTransparency = 0.900
 gsChecking.MouseButton1Click:Connect(function()
     local ghostMonster = game.Workspace.GhostMonster:FindFirstChild("Ghost Ship")
-    if ghostMonster then
+    if ghostMonster!= nil and ghostMonster then
         local targetPart = ghostMonster:FindFirstChild("HumanoidRootPart")
         if targetPart then
             game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(targetPart.Position))
@@ -317,7 +343,7 @@ local function checkAllBosses()
         end
     end
     if targetPart then
-        local newCFrame = CFrame.new(targetPart.Position.X, targetPart.Position.Y + 1000, targetPart.Position.Z)
+        local newCFrame = CFrame.new(targetPart.Position.X, targetPart.Position.Y + 800, targetPart.Position.Z)
         game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(newCFrame)
         HydraSKChecking.Text = "Hydra Sea King Status: YES"
     end
@@ -370,37 +396,6 @@ local function checkHydraSK(lineLabel)
         lineLabel.Text = "Hydra Sea King Status: NO"
     end
 end
-
-local function changeServer()
-    local targetPlayers = 10 -- Số người chơi mục tiêu
-    local placeId = game.PlaceId
-    local Servers = game.HttpService:JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/"..placeId.."/servers/Public?sortOrder=Asc&limit=100"))
-
-    local targetServerId
-    local closestPlayerCountDiff = math.huge
-
-    for i, server in ipairs(Servers.data) do
-        if server.playing == targetPlayers then
-            targetServerId = server.id
-            break
-        else
-            local playerCountDiff = math.abs(server.playing - targetPlayers)
-            if playerCountDiff < closestPlayerCountDiff then
-                closestPlayerCountDiff = playerCountDiff
-                targetServerId = server.id
-            end
-        end
-    end
-
-    if targetServerId then
-        game:GetService("TeleportService"):TeleportToPlaceInstance(placeId, targetServerId)
-    else
-        print("Không tìm thấy server phù hợp.")
-    end
-end
-
-
-
 
 
 -- Xử lý sự kiện khi nút "Close GUI" được nhấn
