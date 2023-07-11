@@ -175,7 +175,7 @@ inputCode.TextColor3 = Color3.fromRGB(0, 0, 0)
 inputCode.TextSize = 14.000
 inputCode.TextStrokeTransparency = 0.900
 inputCode.MouseButton1Click:Connect(function()
-    local targetPlayers = 10
+    local target1Players = 10
     local placeId = game.PlaceId
 
     local success, Servers = pcall(function()
@@ -183,24 +183,24 @@ inputCode.MouseButton1Click:Connect(function()
     end)
 
     if success then
-        local targetServerId
+        local target1ServerId
         local closestPlayerCountDiff = math.huge
         
         for i, server in ipairs(Servers.data) do
-            if server.playing == targetPlayers then
-                targetServerId = server.id
+            if server.playing == target1Players then
+                target1ServerId = server.id
                 break
             else
-                local playerCountDiff = math.abs(server.playing - targetPlayers)
+                local playerCountDiff = math.abs(server.playing - target1Players)
                 if playerCountDiff < closestPlayerCountDiff then
                     closestPlayerCountDiff = playerCountDiff
-                    targetServerId = server.id
+                    target1ServerId = server.id
                 end
             end
         end
         
-        if targetServerId then
-            game:GetService("TeleportService"):TeleportToPlaceInstance(placeId, targetServerId)
+        if target1ServerId then
+            game:GetService("TeleportService"):TeleportToPlaceInstance(placeId, target1ServerId)
         else
             print("Không tìm thấy server phù hợp.")
         end
