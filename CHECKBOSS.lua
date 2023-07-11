@@ -14,32 +14,32 @@ local gsChecking = Instance.new("TextButton")
 local odenChecking = Instance.new("TextButton")
 local HydraSKChecking = Instance.new("TextButton")
 
---Properties:
+-- Properties:
 
-CheckingBoss.Name = "Checking Boss"
+CheckingBoss.Name = "CheckingBoss"
 CheckingBoss.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 CheckingBoss.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 Main.Name = "Main"
 Main.Parent = CheckingBoss
 Main.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Main.BackgroundTransparency = 0.200
+Main.BackgroundTransparency = 0.2
 Main.Position = UDim2.new(0.0739130452, 0, 0.102608711, 0)
 Main.Size = UDim2.new(0, 217, 0, 482)
 
 TextBox.Parent = Main
 TextBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-TextBox.BackgroundTransparency = 0.350
+TextBox.BackgroundTransparency = 0.35
 TextBox.Position = UDim2.new(0.0273291953, 0, 0.137873232, 0)
 TextBox.Size = UDim2.new(0, 205, 0, 394)
 TextBox.Font = Enum.Font.SourceSans
 TextBox.Text = ""
 TextBox.TextColor3 = Color3.fromRGB(0, 0, 0)
-TextBox.TextSize = 14.000
+TextBox.TextSize = 14
 
 TextButton.Parent = Main
 TextButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-TextButton.BackgroundTransparency = 0.060
+TextButton.BackgroundTransparency = 0.06
 TextButton.BorderSizePixel = 0
 TextButton.Position = UDim2.new(-0.00253429497, 0, 0.00145417918, 0)
 TextButton.Size = UDim2.new(0, 217, 0, 31)
@@ -48,8 +48,8 @@ TextButton.Font = Enum.Font.SourceSans
 TextButton.Text = "HpxGames"
 TextButton.TextColor3 = Color3.fromRGB(255, 1, 1)
 TextButton.TextScaled = true
-TextButton.TextSize = 14.000
-TextButton.TextStrokeTransparency = 0.810
+TextButton.TextSize = 14
+TextButton.TextStrokeTransparency = 0.81
 TextButton.TextWrapped = true
 
 bmChecking.Name = "bmChecking"
@@ -60,8 +60,8 @@ bmChecking.Size = UDim2.new(0, 174, 0, 18)
 bmChecking.Font = Enum.Font.SourceSans
 bmChecking.Text = "Bigmom Status: NO"
 bmChecking.TextColor3 = Color3.fromRGB(0, 0, 0)
-bmChecking.TextSize = 14.000
-bmChecking.TextStrokeTransparency = 0.900
+bmChecking.TextSize = 14
+bmChecking.TextStrokeTransparency = 0.9
 bmChecking.MouseButton1Click:Connect(function()
     local targetPart = game.Workspace.Island["D - Loaf Island"]:FindFirstChild("Ms Mother")
     if targetPart then
@@ -88,36 +88,35 @@ hopServer.Size = UDim2.new(0, 174, 0, 40)
 hopServer.Font = Enum.Font.SourceSans
 hopServer.Text = "NHAY SERVER IT NGUOI"
 hopServer.TextColor3 = Color3.fromRGB(0, 0, 0)
-hopServer.TextSize = 14.000
-hopServer.TextStrokeTransparency = 0.900
+hopServer.TextSize = 14
+hopServer.TextStrokeTransparency = 0.9
 hopServer.MouseButton1Click:Connect(function()
-   --[SEVER HOP LESS]--
-		local placeId = game.PlaceId
-		local Servers = game.HttpService:JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/"..placeId.."/servers/Public?sortOrder=Asc&limit=100"))
-		
-		local minPlayers = math.huge
-		local targetServerId
-		
-		for i, server in ipairs(Servers.data) do
-		    if server.playing < minPlayers then
-		        minPlayers = server.playing
-		        targetServerId = server.id
-		    end
-		end
-		
-		if targetServerId then
-		    game:GetService("TeleportService"):TeleportToPlaceInstance(placeId, targetServerId)
-		else
-		    print("Không tìm thấy server phù hợp.")
-		end
+    --[SEVER HOP LESS]--
+    local placeId = game.PlaceId
+    local Servers = game.HttpService:JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/"..placeId.."/servers/Public?sortOrder=Asc&limit=100"))
 
+    local minPlayers = math.huge
+    local targetServerId
+
+    for i, server in ipairs(Servers.data) do
+        if server.playing < minPlayers then
+            minPlayers = server.playing
+            targetServerId = server.id
+        end
+    end
+
+    if targetServerId then
+        game:GetService("TeleportService"):TeleportToPlaceInstance(placeId, targetServerId)
+    else
+        print("Không tìm thấy server phù hợp.")
+    end
 end)
 
 
 closeGUI.Name = "closeGUI"
 closeGUI.Parent = Main
 closeGUI.BackgroundColor3 = Color3.fromRGB(255, 170, 0)
-closeGUI.BackgroundTransparency = 0.800
+closeGUI.BackgroundTransparency = 0.8
 closeGUI.BorderColor3 = Color3.fromRGB(255, 0, 4)
 closeGUI.BorderSizePixel = 0
 closeGUI.Position = UDim2.new(0.810333431, 0, 0.0056605991, 0)
@@ -125,31 +124,31 @@ closeGUI.Size = UDim2.new(0, 35, 0, 25)
 closeGUI.Font = Enum.Font.Unknown
 closeGUI.Text = "X"
 closeGUI.TextColor3 = Color3.fromRGB(0, 0, 0)
-closeGUI.TextSize = 32.000
+closeGUI.TextSize = 32
 
 Rarechecking.Name = "Rarechecking"
 Rarechecking.Parent = Main
 Rarechecking.BackgroundColor3 = Color3.fromRGB(208, 255, 0)
-Rarechecking.BackgroundTransparency = 0.700
+Rarechecking.BackgroundTransparency = 0.7
 Rarechecking.BorderSizePixel = 0
 Rarechecking.Position = UDim2.new(0.0273291953, 0, 0.862706482, 0)
 Rarechecking.Size = UDim2.new(0, 205, 0, 45)
 Rarechecking.Font = Enum.Font.SourceSans
 Rarechecking.Text = "No found any BOSS on this the server"
 Rarechecking.TextColor3 = Color3.fromRGB(255, 0, 0)
-Rarechecking.TextSize = 14.000
+Rarechecking.TextSize = 14
 
 Help.Name = "Help"
 Help.Parent = Main
 Help.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Help.BackgroundTransparency = 1.000
+Help.BackgroundTransparency = 1
 Help.BorderSizePixel = 0
 Help.Position = UDim2.new(0.032111831, 0, 0.0833773762, 0)
 Help.Size = UDim2.new(0, 198, 0, 20)
 Help.Font = Enum.Font.SourceSans
 Help.Text = "Check Boss for King Legacy"
 Help.TextColor3 = Color3.fromRGB(0, 0, 0)
-Help.TextSize = 14.000
+Help.TextSize = 14
 
 Logo.Name = "Logo"
 Logo.Parent = Main
@@ -167,8 +166,8 @@ inputCode.Size = UDim2.new(0, 191, 0, 15)
 inputCode.Font = Enum.Font.SourceSans
 inputCode.Text = "Hop Server Nhiều"
 inputCode.TextColor3 = Color3.fromRGB(0, 0, 0)
-inputCode.TextSize = 14.000
-inputCode.TextStrokeTransparency = 0.900
+inputCode.TextSize = 14
+inputCode.TextStrokeTransparency = 0.9
 inputCode.MouseButton1Click:Connect(function()
     local target1Players = 10
     local placeId = game.PlaceId
@@ -214,9 +213,9 @@ checkAll_2.Size = UDim2.new(0, 139, 0, 31)
 checkAll_2.Font = Enum.Font.SourceSans
 checkAll_2.Text = "Try Tele and Checking All"
 checkAll_2.TextColor3 = Color3.fromRGB(0, 0, 0)
-checkAll_2.TextSize = 14.000
+checkAll_2.TextSize = 14
 checkAll_2.TextStrokeColor3 = Color3.fromRGB(255, 0, 0)
-checkAll_2.TextStrokeTransparency = 0.690
+checkAll_2.TextStrokeTransparency = 0.69
 
 gsChecking.Name = "gsChecking"
 gsChecking.Parent = Main
@@ -226,11 +225,11 @@ gsChecking.Size = UDim2.new(0, 174, 0, 18)
 gsChecking.Font = Enum.Font.SourceSans
 gsChecking.Text = "GhostShip Status: NO"
 gsChecking.TextColor3 = Color3.fromRGB(0, 0, 0)
-gsChecking.TextSize = 14.000
-gsChecking.TextStrokeTransparency = 0.900
+gsChecking.TextSize = 14
+gsChecking.TextStrokeTransparency = 0.9
 gsChecking.MouseButton1Click:Connect(function()
     local ghostMonster = game.Workspace.GhostMonster:FindFirstChild("Ghost Ship")
-    if ghostMonster!= nil and ghostMonster then
+    if ghostMonster then
         local targetPart = ghostMonster:FindFirstChild("HumanoidRootPart")
         if targetPart then
             game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(targetPart.Position))
@@ -244,8 +243,6 @@ gsChecking.MouseButton1Click:Connect(function()
 end)
 
 
-
-
 odenChecking.Name = "odenChecking"
 odenChecking.Parent = Main
 odenChecking.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -254,14 +251,12 @@ odenChecking.Size = UDim2.new(0, 174, 0, 18)
 odenChecking.Font = Enum.Font.SourceSans
 odenChecking.Text = "Oden Status : NO"
 odenChecking.TextColor3 = Color3.fromRGB(0, 0, 0)
-odenChecking.TextSize = 14.000
-odenChecking.TextStrokeTransparency = 0.900
+odenChecking.TextSize = 14
+odenChecking.TextStrokeTransparency = 0.9
 odenChecking.MouseButton1Click:Connect(function()
     local targetPart = game.Workspace.Island["A - Japan"]["King Samurai Spawn"]
     if targetPart then
         game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(targetPart.Position))
-
-        -- Kiểm tra sự xuất hiện của Boss Oden
         wait(2)
         local bossFolder = game.Workspace.Monster.Boss
         local odenBoss = bossFolder:FindFirstChild("King Samurai [Lv. 3500]")
@@ -283,8 +278,8 @@ HydraSKChecking.Size = UDim2.new(0, 174, 0, 18)
 HydraSKChecking.Font = Enum.Font.SourceSans
 HydraSKChecking.Text = "Hydra Sea King Status: NO"
 HydraSKChecking.TextColor3 = Color3.fromRGB(0, 0, 0)
-HydraSKChecking.TextSize = 14.000
-HydraSKChecking.TextStrokeTransparency = 0.900
+HydraSKChecking.TextSize = 14
+HydraSKChecking.TextStrokeTransparency = 0.9
 HydraSKChecking.MouseButton1Click:Connect(function()
     local targetPart = nil
     local islandModels = game.Workspace.Island:GetChildren()
@@ -303,38 +298,33 @@ HydraSKChecking.MouseButton1Click:Connect(function()
     end
 end)
 
+local isBossChecked = false
 
-
-
-local isBossChecked = false -- Biến để theo dõi trạng thái đã kiểm tra hay chưa
-
--- Hàm để kiểm tra và cập nhật trạng thái cho tất cả 4 Boss
 local function checkAllBosses()
-    -- Kiểm tra và cập nhật trạng thái cho Bigmom
     local bigmomTargetPart = game.Workspace.Island["D - Loaf Island"]:FindFirstChild("Ms Mother")
     if bigmomTargetPart then
         game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(bigmomTargetPart.Position))
-        wait(2) -- Chờ 2 giây
+        wait(2)
         local bigmomBoss = game.Workspace.Monster.Boss:FindFirstChild("MsMother [Lv. 7500]")
         if bigmomBoss then
             bmChecking.Text = "Bigmom Status: YES"
+        else
+            bmChecking.Text = "Bigmom Status: NO"
         end
     end
-    
-    -- Kiểm tra và cập nhật trạng thái cho Oden
+
     local odenTargetPart = game.Workspace.Island["A - Japan"]["King Samurai Spawn"]
     if odenTargetPart then
         game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(odenTargetPart.Position))
-        wait(2) -- Chờ 2 giây
+        wait(2)
         local odenBoss = game.Workspace.Monster.Boss:FindFirstChild("King Samurai [Lv. 3500]")
         if odenBoss then
             odenChecking.Text = "Oden Status: YES"
+        else
+            odenChecking.Text = "Oden Status: NO"
         end
     end
-    
-   
-    
-    -- Kiểm tra và cập nhật trạng thái cho Hydra Sea King
+
     local targetPart = nil
     local islandModels = game.Workspace.Island:GetChildren()
     for _, model in ipairs(islandModels) do
@@ -348,90 +338,57 @@ local function checkAllBosses()
         game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(newCFrame)
         HydraSKChecking.Text = "Hydra Sea King Status: YES"
     end
-     -- Kiểm tra và cập nhật trạng thái cho Ghost Ship
-    -- Kiểm tra và cập nhật trạng thái cho Ghost Ship
-local ghostMonster = game.Workspace.GhostMonster
-if ghostMonster and ghostMonster:FindFirstChild("Ghost Ship") then
-    local gsTargetPart = ghostMonster["Ghost Ship"]:FindFirstChild("HumanoidRootPart")
-    if gsTargetPart then
-        gsChecking.Text = "GhostShip Status: YES"
-    end
-end
-
-
     
-    isBossChecked = true -- Đã kiểm tra xong
+    local ghostMonster = game.Workspace.GhostMonster
+    if ghostMonster and ghostMonster:FindFirstChild("Ghost Ship") then
+        local gsTargetPart = ghostMonster["Ghost Ship"]:FindFirstChild("HumanoidRootPart")
+        if gsTargetPart then
+            gsChecking.Text = "GhostShip Status: YES"
+        end
+    end
+
+    isBossChecked = true
 end
 
-
--- Xử lý sự kiện khi CharacterAdded (game load hoàn thành)
 game.Players.LocalPlayer.CharacterAdded:Connect(function()
     if not isBossChecked then
-        checkAllBosses() -- Thực hiện kiểm tra và cập nhật trạng thái Boss lần đầu
+        checkAllBosses()
         
-        -- Kiểm tra nếu không có Boss nào được tìm thấy
         if bmChecking.Text == "Bigmom Status: NO" and odenChecking.Text == "Oden Status: NO" and gsChecking.Text == "GhostShip Status: NO" and HydraSKChecking.Text == "Hydra Sea King Status: NO" then
-            -- Đợi 20 giây
             for i = 1, 20 do
                 wait(1)
                 print("Đang chờ...", i)
             end
-            
-            changeServer() -- Gọi hàm đổi server sau khi đợi 20 giây
+
+            changeServer()
         end
     end
 end)
 
--- Xử lý sự kiện khi nhấn vào nút checkAll_2 để kiểm tra lại
-checkAll_2.MouseButton1Click:Connect(function()
-    checkAllBosses() -- Thực hiện kiểm tra và cập nhật trạng thái Boss
-end)
+checkAll_2.MouseButton1Click:Connect(checkAllBosses)
 
+function changeServer()
+    --[SEVER HOP]--
+    local placeId = game.PlaceId
+    local Servers = game.HttpService:JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/"..placeId.."/servers/Public?sortOrder=Asc&limit=100"))
 
--- Hàm kiểm tra Hydra Sea King
-local function checkHydraSK(lineLabel)
-    local bossFolder = game.Workspace.Monster:FindFirstChild("Boss")
-    if bossFolder and (bossFolder:FindFirstChild("Hydra") or bossFolder:FindFirstChild("Sea King")) then
-        lineLabel.Text = "Hydra Sea King Status: YES"
+    local minPlayers = math.huge
+    local targetServerId
+
+    for i, server in ipairs(Servers.data) do
+        if server.playing < minPlayers then
+            minPlayers = server.playing
+            targetServerId = server.id
+        end
+    end
+
+    if targetServerId then
+        game:GetService("TeleportService"):TeleportToPlaceInstance(placeId, targetServerId)
     else
-        lineLabel.Text = "Hydra Sea King Status: NO"
+        print("Không tìm thấy server phù hợp.")
     end
 end
 
-
--- Xử lý sự kiện khi nút "Close GUI" được nhấn
 closeGUI.MouseButton1Click:Connect(function()
-    CheckingBoss:Destroy() -- Xóa ScreenGui để tắt GUI
+    CheckingBoss:Destroy()
 end)
--- make the frame draggable
-	local UserInputService = game:GetService("UserInputService")
-	local dragging
-	local dragInput
-	local dragStart
-	local startPos
-	local function update(input)
-		local delta = input.Position - dragStart
-		Main.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-	end
-	Main.InputBegan:Connect(function(input)
-		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-			dragging = true
-			dragStart = input.Position
-			startPos = Main.Position
-			input.Changed:Connect(function()
-				if input.UserInputState == Enum.UserInputState.End then
-					dragging = false
-				end
-			end)
-		end
-	end)
-	Main.InputChanged:Connect(function(input)
-		if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
-			dragInput = input
-		end
-	end)
-	UserInputService.InputChanged:Connect(function(input)
-		if input == dragInput and dragging then
-			update(input)
-		end
-	end)
