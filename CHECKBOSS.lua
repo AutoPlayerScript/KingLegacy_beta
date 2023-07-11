@@ -175,8 +175,7 @@ inputCode.TextColor3 = Color3.fromRGB(0, 0, 0)
 inputCode.TextSize = 14.000
 inputCode.TextStrokeTransparency = 0.900
 inputCode.MouseButton1Click:Connect(function()
-		local targetPlayers = 10 -- Số người chơi mục tiêu
-
+		local targetPlayers = 10
 			local placeId = game.PlaceId
 			local Servers = game.HttpService:JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/"..placeId.."/servers/Public?sortOrder=Asc&limit=100"))
 			
